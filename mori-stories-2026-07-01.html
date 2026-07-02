@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MORI Stories — 브랜드 미디어</title>
+<style>
+:root{
+  --bg-white:#FAFAF5; --bg-section:#F2F3E8; --border-warm:#E8E6DC; --border-default:#E5E5E5;
+  --ink:#0F0F1E; --ink-fg:#E8E6DC; --text-primary:#111111; --gray-strong:#4F5F66; --gray:#9A9A8E;
+  --lime:#E7FE55; --lime-ink:#4A5A00; --info:#3B82F6; --trust:#2E9E3C; --sky:#7FE7E5;
+  --maxw:1240px; --gutter:26px;
+  --serif:"Iowan Old Style","Apple SD Gothic Neo",Georgia,"Nanum Myeongjo",serif;
+  --sans:"Pretendard","Apple SD Gothic Neo","Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{font-family:var(--sans);color:var(--text-primary);background:var(--bg-white);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .3s,border-color .3s}
+.nav.solid{background:rgba(250,250,245,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-default)}
+.nav-in{max-width:var(--maxw);margin:0 auto;height:62px;display:flex;align-items:flex-start;justify-content:space-between;padding:22px 32px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;color:#fff;transition:color .3s}
+.nav.solid .brand{color:var(--text-primary)}
+.brand .dot{width:20px;height:20px;border-radius:6px;background:var(--lime)}
+.nav .cta{background:var(--lime);color:var(--lime-ink);font-weight:700;font-size:13px;padding:8px 16px;border-radius:9px}
+
+/* HERO — fixed, scroll-scrubbed (동일 방식: mori-insight-article) */
+.hero{position:fixed;inset:0;height:100vh;width:100%;z-index:0;overflow:hidden;background:var(--ink)}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+.hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,30,.5) 0%,rgba(15,15,30,.3) 42%,rgba(15,15,30,.78) 100%);will-change:opacity}
+.hero-inner{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;z-index:2;padding:0 var(--gutter);will-change:transform,opacity}
+.hero .eyebrow{font-size:13px;font-weight:700;letter-spacing:.22em;color:var(--lime);text-transform:uppercase}
+.hero h1{font-family:var(--serif);font-weight:800;font-size:clamp(40px,6.4vw,78px);line-height:1.07;margin:16px 0 16px;max-width:16ch;text-shadow:0 2px 30px rgba(15,15,30,.55)}
+.hero p{font-size:clamp(15px,1.6vw,19px);color:#eceadf;max-width:44ch;text-shadow:0 1px 14px rgba(15,15,30,.6)}
+.chevron{margin-top:34px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* CONTENT — slides up over fixed hero */
+.content{position:relative;z-index:2;background:var(--bg-white);margin-top:160vh;box-shadow:0 -40px 90px rgba(15,15,30,.10);border-radius:26px 26px 0 0}
+
+/* CATEGORY BAR */
+.catbar{position:sticky;top:62px;z-index:50;background:rgba(250,250,245,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-warm);border-radius:26px 26px 0 0}
+.catbar-in{max-width:var(--maxw);margin:0 auto;padding:16px var(--gutter);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{border:1px solid var(--border-warm);background:#fff;color:var(--gray-strong);font-size:13px;font-weight:600;padding:8px 15px;border-radius:22px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .15s}
+.chip .n{font-size:11px;color:var(--gray);background:var(--bg-section);padding:1px 7px;border-radius:10px}
+.chip:hover{border-color:var(--gray)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip.on .n{background:rgba(255,255,255,.2);color:#fff}
+
+/* section head */
+.shead{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 24px}
+.shead h2{font-family:var(--serif);font-weight:800;font-size:clamp(24px,3vw,34px)}
+.shead a{font-size:13px;color:var(--gray-strong)}
+.block{padding:60px 0 10px}
+
+/* MAGAZINE (이번 주) — 중요도 기반 편집형 */
+.bento{display:grid;gap:20px;grid-template-columns:2fr 1fr 1fr;grid-template-rows:252px 252px;
+  grid-template-areas:"feat a b" "feat c d"}
+.ba-feat{grid-area:feat}.ba-a{grid-area:a}.ba-b{grid-area:b}.ba-c{grid-area:c}.ba-d{grid-area:d}
+@media(max-width:900px){.bento{grid-template-columns:1fr 1fr;grid-template-rows:auto;grid-template-areas:"feat feat" "a b" "c d"}.ba-feat{min-height:320px}.ba-a,.ba-b,.ba-c,.ba-d{min-height:230px}}
+@media(max-width:600px){.bento{grid-template-columns:1fr;grid-template-areas:"feat" "a" "b" "c" "d"}.ba-a,.ba-b,.ba-c,.ba-d{min-height:220px}}
+
+.bcard{position:relative;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;padding:22px;cursor:pointer}
+.bcard .bg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.bcard .net{position:absolute;inset:0;opacity:.32;background-image:radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.3px);background-size:22px 22px}
+.bcard .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,30,.06),rgba(15,15,30,.82))}
+.bcard:hover .bg{transform:scale(1.06)}
+.bcard .b-in{position:relative;z-index:2}
+.tag{display:inline-flex;font-size:11px;font-weight:800;letter-spacing:.04em;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+.bcard h3{font-family:var(--serif);line-height:1.22;font-weight:700}
+.ba-feat h3{font-size:clamp(24px,2.4vw,32px)}
+.bcard:not(.ba-feat) h3{font-size:18px}
+.bcard .meta{font-size:12px;color:#d9d9cf;margin-top:9px}
+.bcard.event{color:var(--lime-ink)} .bcard.event .veil{background:linear-gradient(180deg,rgba(231,254,85,.08),rgba(231,254,85,.4))} .bcard.event .meta{color:var(--lime-ink)}
+.date-chip{position:absolute;top:18px;left:18px;z-index:3;background:#fff;color:var(--ink);border-radius:12px;padding:8px 12px;text-align:center;line-height:1.1}
+.date-chip .d{font-size:22px;font-weight:800}.date-chip .m{font-size:10px;font-weight:700;color:var(--gray-strong);letter-spacing:.06em}
+.apply{position:absolute;top:20px;right:18px;z-index:3;font-size:11px;font-weight:800;background:var(--lime);color:var(--lime-ink);padding:5px 11px;border-radius:20px}
+
+/* LATEST grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card{cursor:pointer;display:flex;flex-direction:column}
+.card .thumb{height:196px;border-radius:14px;position:relative;overflow:hidden;margin-bottom:14px}
+.card .thumb .bg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.card:hover .thumb .bg{transform:scale(1.06)}
+.card .thumb .net{position:absolute;inset:0;opacity:.32;background-image:radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.3px);background-size:20px 20px}
+.card .tag{position:absolute;top:12px;left:12px;z-index:2}
+.card h3{font-family:var(--serif);font-size:19px;line-height:1.34;font-weight:700;margin-bottom:7px}
+.card p{font-size:13px;color:var(--gray-strong);line-height:1.6}
+.card .meta{font-size:12px;color:var(--gray);margin-top:10px}
+.empty{display:none;text-align:center;color:var(--gray);padding:50px 0}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.6,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* footer */
+footer{background:var(--ink);color:var(--ink-fg);padding:54px 0 30px;margin-top:0}
+.foot-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.foot-in .b{display:flex;align-items:center;gap:9px;font-weight:800;color:#fff;margin-bottom:8px}
+.foot-in .b .dot{width:20px;height:20px;border-radius:6px;background:var(--lime)}
+.foot-in p{font-size:13px;max-width:34ch}
+.foot-bottom{max-width:var(--maxw);margin:26px auto 0;padding:16px var(--gutter) 0;border-top:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--gray)}
+.logo-mark{width:24px;height:24px;border-radius:7px;display:inline-block;vertical-align:middle;object-fit:cover}
+.hero-toolbar{position:fixed;top:92px;right:22px;z-index:58;display:flex;flex-direction:column;gap:8px}
+.hero-toolbar button{width:38px;height:38px;border-radius:10px;border:1px solid var(--border-warm);background:rgba(255,255,255,.85);backdrop-filter:blur(6px);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-primary)}
+.hero-toolbar button:hover{background:#fff;border-color:var(--gray)}
+.subscribe{background:var(--bg-section);border-top:1px solid var(--border-warm);margin-top:70px;padding:58px 0}
+.sub-in{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.subscribe h2{font-family:var(--serif);font-weight:800;font-size:clamp(22px,2.6vw,30px)}
+.subscribe p{color:var(--gray-strong);font-size:14px;margin-top:6px}
+.sub-form{display:flex;gap:10px;flex:1;min-width:280px;max-width:440px}
+.sub-form input{flex:1;padding:13px 16px;border:1px solid var(--border-default);border-radius:11px;font-size:14px;font-family:inherit;background:#fff}
+.sub-form input:focus{outline:none;border-color:var(--info)}
+.sub-form button{background:var(--ink);color:#fff;border:none;border-radius:11px;padding:13px 22px;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.sub-form button:hover{filter:brightness(1.15)}
+.pager{display:none;justify-content:center;gap:8px;margin:42px 0 4px}
+.pager button{min-width:38px;height:38px;padding:0 6px;border:1px solid var(--border-warm);background:#fff;border-radius:10px;font-size:14px;font-weight:700;color:var(--gray-strong);cursor:pointer;transition:all .15s}
+.pager button:hover:not(:disabled){border-color:var(--gray);color:var(--text-primary)}
+.pager button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pager button:disabled{opacity:.35;cursor:default}
+/* 현장 스토리 갤러리 카드 */
+.gcard{position:relative;border-radius:14px;overflow:hidden;height:320px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;padding:20px;cursor:pointer}
+.gcard .bg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.gcard:hover .bg{transform:scale(1.06)}
+.gcard .net{position:absolute;inset:0;opacity:.32;background-image:radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.3px);background-size:20px 20px}
+.gcard .gveil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,30,.05),rgba(15,15,30,.82))}
+.gcard .g-in{position:relative;z-index:2}
+.gcard h3{font-family:var(--serif);font-size:20px;line-height:1.3;font-weight:700;margin-top:10px}
+.gcard .meta{font-size:12px;color:#d9d9cf;margin-top:8px}
+.ph-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.card:hover .ph-img,.gcard:hover .ph-img,.bcard:hover .ph-img{transform:scale(1.06)}
+.nav .nav-cats{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.nav .nav-cats .chip{border:none;background:none;padding:0;font-size:14px;font-weight:600;color:rgba(255,255,255,.85);gap:4px;border-radius:0}
+.nav.solid .nav-cats .chip{color:var(--gray-strong)}
+.nav .nav-cats .chip:hover{color:#fff;border-color:transparent} .nav.solid .nav-cats .chip:hover{color:var(--text-primary)}
+.nav .nav-cats .chip .n{background:none!important;color:inherit;opacity:.55;font-size:11px;padding:0}
+.nav .nav-cats .chip.on{color:var(--lime);font-weight:800;background:none;border-color:transparent}
+.nav.solid .nav-cats .chip.on{color:var(--lime-ink)}
+@media(max-width:760px){.nav .nav-cats{gap:11px}.nav .nav-cats .chip{font-size:12.5px}}
+.navtog{display:none}.hamb{display:none}@media(max-width:700px){.hamb{display:flex;flex-direction:column;justify-content:center;gap:5px;position:fixed;top:15px;right:18px;z-index:80;padding:6px;cursor:pointer;color:#fff}.nav.solid .hamb{color:#111}.hamb span{width:26px;height:3px;background:currentColor;border-radius:2px;transition:transform .25s,opacity .25s}.nav-cats{position:fixed;top:0;right:-105%;height:100vh;width:74%;max-width:300px;background:rgba(15,15,30,.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:82px 26px 26px;transition:right .32s cubic-bezier(.4,0,.2,1);box-shadow:-12px 0 40px rgba(0,0,0,.35);z-index:75}.nav-cats a,.nav-cats .chip{color:#fff!important;font-size:18px;font-weight:600;width:100%;padding:14px 2px!important;border-bottom:1px solid rgba(255,255,255,.12);background:transparent!important;border-radius:0!important;white-space:normal}.nav-cats .chip.active,.nav-cats .chip[aria-selected="true"]{color:var(--lime)!important}.navtog:checked ~ .nav-cats{right:0}.navtog:checked ~ .hamb span:nth-child(1){transform:translateY(8px) rotate(45deg)}.navtog:checked ~ .hamb span:nth-child(2){opacity:0}.navtog:checked ~ .hamb span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}}</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-in"><a class="brand" href="#"><img class="logo-mark" src="assets/mori-icon.gif" alt="MORI">MORI</a><input type="checkbox" id="navtog" class="navtog" aria-hidden="true"><label for="navtog" class="hamb" aria-label="메뉴 열기"><span></span><span></span><span></span></label><div class="nav-cats" id="catbar"></div></div>
+</nav>
+
+<!-- FIXED VIDEO HERO -->
+<section class="hero">
+  <video id="heroVideo" src="assets/mori-stories-hero.mp4" autoplay muted loop playsinline></video>
+  <div class="hero-veil" id="heroVeil"></div>
+  <div class="hero-inner" id="heroInner">
+    <div class="eyebrow">MORI Stories</div>
+    <h1>브랜드가<br>살아 움직이는 공간</h1>
+    <p>인사이트, 뉴스, 세미나, 현장 — MORI가 사람들과 함께 만들어가는 이야기를 전합니다.</p>
+    <svg class="chevron" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+</section>
+
+<!-- hero fixed toolbar (상세페이지와 동일) -->
+<div class="hero-toolbar">
+  <button title="공유하기" onclick="shareSite()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+</div>
+
+<!-- CONTENT slides up over hero -->
+<main class="content">
+
+  <section class="block wrap">
+    <div class="shead reveal"><h2>이번 주 MORI</h2><a href="#">전체 보기 →</a></div>
+    <div class="bento" id="bento"></div>
+  </section>
+
+  <section class="block wrap">
+    <div class="shead reveal"><h2 id="latestH">최신 스토리</h2></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty">해당 카테고리의 콘텐츠가 없습니다.</div>
+    <div class="pager" id="pager"></div>
+  </section>
+
+  <!-- 뉴스레터 구독 (소통 채널의 핵심) -->
+  <section class="subscribe reveal">
+    <div class="wrap sub-in">
+      <div>
+        <h2>MORI 소식을 가장 먼저 받아보세요</h2>
+        <p>세미나·이벤트·고객 이야기를 이메일로. 언제든 구독을 해지할 수 있어요.</p>
+      </div>
+      <form class="sub-form" onsubmit="return subscribe(event)">
+        <input type="email" placeholder="name@company.com" required>
+        <button type="submit">구독하기</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-in">
+      <div><div class="b"><img class="logo-mark" src="assets/mori-icon.gif" alt="MORI">MORI</div><p>AI 기반 글로벌 B2B 세일즈 인텔리전스 플랫폼. 브랜드의 지금을 전합니다.</p></div>
+      <div style="font-size:13px;line-height:2"><div style="color:#fff;font-weight:700;margin-bottom:6px">카테고리</div>인사이트 · 뉴스 · 세미나 · 현장 스토리</div>
+    </div>
+    <div class="foot-bottom">© 2026 Connect AI. All rights reserved. · MORI Stories · 브랜드 미디어 견본</div>
+  </footer>
+</main>
+
+<script>
+const DETAIL="mori-insight-article-2026-06-30.html";
+const CATS={
+  insight:{label:"인사이트",grad:"linear-gradient(135deg,#0F0F1E,#3B82F6)",tag:"#3B82F6",tagfg:"#fff"},
+  news:{label:"뉴스",grad:"linear-gradient(135deg,#0F0F1E,#4F5F66)",tag:"#0F0F1E",tagfg:"#fff"},
+  seminar:{label:"세미나",grad:"linear-gradient(135deg,#0F0F1E,#2E9E3C)",tag:"#2E9E3C",tagfg:"#fff"},
+  field:{label:"현장 스토리",grad:"linear-gradient(135deg,#2E9E3C,#7FE7E5)",tag:"#7FE7E5",tagfg:"#0F0F1E"},
+};
+const tagHTML=c=>`<span class="tag" style="background:${CATS[c].tag};color:${CATS[c].tagfg}">${CATS[c].label}</span>`;
+const bgHTML=c=>`<div class="bg" style="background:${CATS[c].grad}"></div><div class="net"></div>`;
+const mediaHTML=a=>a.img?`<img class="ph-img" src="${a.img}" alt="">`:bgHTML(a.cat);
+
+/* 이번 주 — 편집형 (feat 1 + 4) */
+const FEAT=[
+  {area:"ba-feat",cat:"seminar",t:"AI 시대 무역 혁신, AI 무역 에이전트 만들기",meta:"7.22(수) 오후 2시 · 강남 · 무료",date:{d:"22",m:"JUL"},apply:true,u:"mori-seminar-academy-2026-07-02.html",img:"assets/mori-seminar-hero.jpg"},
+  {area:"ba-b",cat:"news",t:"AI·사이버보안 규제, 수출의 새 관문이 되다",meta:"바이라인네트워크 보도",u:"mori-news-tbt-regulation-2026-07-02.html",img:"assets/mori-news-tbt-thumb.jpg"},
+  {area:"ba-a",cat:"news",t:"무역은 사라지고, 연결만 남는다",meta:"통상뉴스 보도",u:"mori-news-book-2026-07-02.html",img:"assets/mori-news-thumb.jpg"},
+  {area:"ba-c",cat:"field",t:"대학과 함께한 AI 디지털무역 세미나",meta:"Digital Trade Campus Tour",u:"mori-field-story-campus-tour-2026-07-02.html",img:"assets/campus-3.jpeg"},
+  {area:"ba-d",cat:"insight",t:"세일즈 인텔리전스 3부작 — 개인정보 걱정 없이 신호 읽기",meta:"인사이트 · 3부작",u:"mori-insight-si-1-data-2026-07-02.html",img:"assets/mori-si-thumb-1.jpg"}];
+document.getElementById('bento').innerHTML=FEAT.map(a=>{
+  const dc=a.date?`<div class="date-chip"><div class="d">${a.date.d}</div><div class="m">${a.date.m}</div></div>`:'';
+  const ap=a.apply?`<div class="apply">신청 오픈</div>`:'';
+  return `<a class="bcard ${a.area} ${a.cat==='event'?'event':''} reveal" href="${a.u||DETAIL}">${mediaHTML(a)}<div class="veil"></div>${dc}${ap}<div class="b-in">${tagHTML(a.cat)}<h3>${a.t}</h3><div class="meta">${a.meta}</div></div></a>`;
+}).join('');
+
+/* 최신 스토리 */
+const ARTICLES=[
+  {cat:"insight",t:"세일즈 인텔리전스 ① 식별 vs 비식별 데이터",e:"개인정보 걱정 없이 구매 신호를 읽는 법.",d:"2026.07.02",r:"5분",u:"mori-insight-si-1-data-2026-07-02.html",img:"assets/mori-si-thumb-1.jpg"},
+  {cat:"insight",t:"세일즈 인텔리전스 ② 3단계 작동 메커니즘",e:"탐지 → AI 분석 → 맞춤 멘토링, 어떻게 작동하나.",d:"2026.07.02",r:"5분",u:"mori-insight-si-2-mechanism-2026-07-02.html",img:"assets/mori-si-thumb-2.jpg"},
+  {cat:"insight",t:"세일즈 인텔리전스 ③ 설득·타깃·Q&A",e:"식당 매니저 비유와 반론 대응 전략.",d:"2026.07.02",r:"6분",u:"mori-insight-si-3-selling-2026-07-02.html",img:"assets/mori-si-thumb-3.jpg"},
+  {cat:"seminar",t:"AI 시대 무역 혁신, AI 무역 에이전트 만들기",e:"7월 22일(수) 오후 2시 · 강남 교육장 · 90분 무료 오픈세미나. 양송이 대표.",d:"2026.07.22",r:"신청",u:"mori-seminar-academy-2026-07-02.html",img:"assets/mori-seminar-hero.jpg"},
+  
+  
+  {cat:"news",t:"무역은 사라지고, 연결만 남는다 — 통상뉴스 보도",e:"커넥트AI 대표 공저 『초연결 지구에서 무역하라』가 언론에 소개됐습니다.",d:"2025.11.11",r:"5분",u:"mori-news-book-2026-07-02.html",img:"assets/mori-news-thumb.jpg"},
+  {cat:"news",t:"AI·사이버보안 규제, 수출의 새 관문이 되다",e:"바이라인네트워크가 조명한 국가기술표준원 규제 세미나 — 양송이 대표 TBT 위원장 참석.",d:"2026.05.21",r:"4분",u:"mori-news-tbt-regulation-2026-07-02.html",img:"assets/mori-news-tbt-thumb.jpg"},
+  
+  
+  
+  
+  {cat:"field",t:"대학과 함께한 AI 디지털무역 세미나",e:"인천대·남서울대·동국대와 함께한 Digital Trade Campus Tour 현장.",d:"2026.05.30",r:"4분",u:"mori-field-story-campus-tour-2026-07-02.html",img:"assets/campus-3.jpeg"}];
+const grid=document.getElementById('grid'),empty=document.getElementById('empty'),pager=document.getElementById('pager');
+const PAGE_SIZE=12;let curKey='all',curPage=1;
+function cardHTML(a,gallery){if(gallery&&a.cat==='field')return `<a class="gcard reveal" href="${a.u||DETAIL}">${mediaHTML(a)}<div class="gveil"></div><div class="g-in">${tagHTML(a.cat)}<h3>${a.t}</h3><div class="meta">${a.d} · 사진 스토리</div></div></a>`;return `<a class="card reveal" href="${a.u||DETAIL}"><div class="thumb">${mediaHTML(a)}${tagHTML(a.cat)}</div><h3>${a.t}</h3><p>${a.e}</p><div class="meta">${a.d} · ${a.r}${a.r.length<3?'':' 읽기'}</div></a>`;}
+function render(key,page){
+  curKey=key;curPage=page||1;
+  var _lh=document.getElementById('latestH');if(_lh)_lh.textContent=(key&&key!=='all'?CATS[key].label+' ':'')+'최신 스토리';
+  const list=key==='all'?ARTICLES:ARTICLES.filter(a=>a.cat===key);
+  const pages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));
+  if(curPage>pages)curPage=pages;
+  const start=(curPage-1)*PAGE_SIZE;
+  grid.innerHTML=list.slice(start,start+PAGE_SIZE).map(a=>cardHTML(a,key==='field')).join('');
+  empty.style.display=list.length?'none':'block';
+  let h=`<button class="pg-nav" ${curPage===1?'disabled':''} data-go="${curPage-1}">←</button>`;
+  for(let i=1;i<=pages;i++)h+=`<button class="${i===curPage?'on':''}" data-go="${i}">${i}</button>`;
+  h+=`<button class="pg-nav" ${curPage===pages?'disabled':''} data-go="${curPage+1}">→</button>`;
+  pager.innerHTML=h;pager.style.display='flex';
+  observeReveal();
+}
+function scrollToGrid(smooth){const y=grid.getBoundingClientRect().top+scrollY-120;scrollTo({top:y,behavior:smooth?'smooth':'auto'});}
+const counts={all:ARTICLES.length};Object.keys(CATS).forEach(k=>counts[k]=ARTICLES.filter(a=>a.cat===k).length);
+const catbar=document.getElementById('catbar');
+const defs=[{k:'all',label:'홈'}].concat(Object.keys(CATS).map(k=>({k,label:CATS[k].label})));
+catbar.innerHTML=defs.map(c=>`<div class="chip" data-k="${c.k}">${c.label}</div>`).join('');
+function setChip(key){[...catbar.children].forEach(c=>c.classList.toggle('on',c.dataset.k===key));}
+catbar.addEventListener('click',e=>{const chip=e.target.closest('.chip');if(!chip)return;setChip(chip.dataset.k);render(chip.dataset.k,1);if(chip.dataset.k==='all')scrollTo({top:0,behavior:'smooth'});else scrollToGrid(true);});
+pager.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b||b.hasAttribute('disabled'))return;render(curKey,parseInt(b.dataset.go));scrollToGrid(true);});
+
+function subscribe(e){e.preventDefault();const i=e.target.querySelector('input');alert(i.value+' 구독 신청 완료! (데모)');i.value='';return false;}
+
+/* HERO scroll-scrub (동일 방식) */
+const heroInner=document.getElementById('heroInner'),heroVeil=document.getElementById('heroVeil'),heroVideo=document.getElementById('heroVideo'),nav=document.getElementById('nav');
+const easeOut=t=>1-Math.pow(1-t,2);let ticking=false;
+function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{
+  const y=scrollY,vh=innerHeight,SCRUB=vh*1.5,p=Math.min(1,Math.max(0,y/SCRUB));
+  const tp=Math.min(1,p/0.72);
+  heroInner.style.transform='translateY('+(-140*easeOut(tp))+'px)';
+  heroInner.style.opacity=String(1-tp);
+  heroVeil.style.opacity=String(1-0.5*Math.min(1,p/0.85));
+  heroVideo.style.transform='scale('+(1+0.10*p)+')';
+  nav.classList.toggle('solid',y>vh*0.82);
+  ticking=false;});}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* reveal */
+let io;
+function observeReveal(){
+  if(!io)io=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){e.target.style.transitionDelay=(Math.min(i,6)*60)+'ms';e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
+}
+const _cat=new URLSearchParams(location.search).get('cat');
+if(_cat&&CATS[_cat]){setChip(_cat);render(_cat,1);observeReveal();requestAnimationFrame(()=>setTimeout(()=>scrollToGrid(false),90));}
+else{setChip('all');render('all',1);observeReveal();}
+function shareSite(){if(navigator.share){navigator.share({title:document.title,url:location.href}).catch(function(){});}else if(navigator.clipboard){navigator.clipboard.writeText(location.href);alert('링크를 복사했습니다.');}else{alert(location.href);}}
+</script>
+</body>
+</html>

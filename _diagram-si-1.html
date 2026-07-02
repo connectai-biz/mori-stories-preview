@@ -1,0 +1,144 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<style>
+:root{
+  --ink:#0F0F1E; --bg:#FAFAF5; --sec:#F2F3E8; --lime:#E7FE55; --lime-ink:#4A5A00;
+  --trust:#2E9E3C; --slate:#242A3B; --mute:#7A8091; --line:#E3E6DC; --sky:#7FE7E5;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1600px;height:872px}
+body{
+  background:
+    radial-gradient(1200px 520px at 78% -8%, rgba(127,231,229,.10), transparent 60%),
+    radial-gradient(900px 480px at 8% 110%, rgba(231,254,85,.14), transparent 55%),
+    var(--bg);
+  font-family:"Pretendard","Apple SD Gothic Neo",-apple-system,sans-serif;
+  color:var(--ink); padding:60px 64px; position:relative; overflow:hidden;
+}
+/* 미세 도트 텍스처 */
+body::before{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(15,15,30,.045) 1.3px, transparent 1.3px);
+  background-size:26px 26px; -webkit-mask:linear-gradient(#000,#000);opacity:.6;pointer-events:none}
+.wrap{position:relative;z-index:1}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--lime);
+  font-weight:800;font-size:22px;letter-spacing:.2px;padding:11px 20px;border-radius:24px}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--lime);display:inline-block}
+h1{font-size:46px;font-weight:800;letter-spacing:-.6px;text-align:center;margin:34px 0 12px}
+h1 .hl{color:var(--lime-ink);background:linear-gradient(transparent 62%, rgba(231,254,85,.55) 62%);padding:0 4px;border-radius:3px}
+.sub{text-align:center;color:var(--mute);font-size:23px;font-weight:500}
+.flow{display:flex;align-items:flex-start;justify-content:space-between;margin-top:64px}
+.node{width:214px;text-align:center}
+.circle{width:172px;height:172px;border-radius:50%;margin:0 auto;background:#fff;
+  display:flex;align-items:center;justify-content:center;position:relative;
+  box-shadow:0 22px 48px -18px rgba(15,15,30,.35), 0 2px 0 rgba(15,15,30,.03);
+  border:3px solid var(--ink)}
+.circle.trust{border-color:var(--trust)}
+.circle.out{background:linear-gradient(150deg,#F3FF9E,var(--lime));border-color:var(--lime-ink);
+  box-shadow:0 22px 48px -16px rgba(74,90,0,.5)}
+.badge{position:absolute;top:-8px;right:-8px;width:38px;height:38px;border-radius:50%;
+  background:var(--ink);color:var(--lime);font-weight:800;font-size:17px;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -4px rgba(0,0,0,.4)}
+.lbl{font-size:26px;font-weight:800;margin-top:26px}
+.dsc{font-size:19px;color:var(--mute);font-weight:500;margin-top:7px;line-height:1.4}
+.conn{flex:1;height:24px;margin:78px 6px 0;position:relative}
+.conn svg{width:100%;height:24px;overflow:visible}
+.pill{display:inline-block;background:var(--sec);color:var(--lime-ink);font-weight:700;
+  font-size:16px;padding:5px 12px;border-radius:20px;margin-top:10px}
+.guard{margin-top:70px;background:var(--slate);border-radius:22px;padding:26px 34px;
+  display:flex;align-items:center;gap:24px;box-shadow:0 20px 50px -22px rgba(15,15,30,.55)}
+.guard .sh{flex:none}
+.guard .gt{color:#fff}
+.guard .gt b{font-size:27px;font-weight:800}
+.guard .gt p{font-size:20px;color:#C4CAD6;margin-top:6px;font-weight:500}
+.guard .gt em{color:var(--lime);font-style:normal;font-weight:700}
+</style></head>
+<body><div class="wrap">
+  <div style="text-align:center"><span class="chip"><i></i>세일즈 인텔리전스 · 1부</span></div>
+  <h1>개인을 추적하지 않습니다. 기업의 <span class="hl">‘관심 신호’</span>를 읽습니다.</h1>
+  <div class="sub">고객의 웹 방문·제안서 열람에서 나오는 <b>비식별 신호</b>만으로 구매 맥락을 파악하는 흐름</div>
+
+  <div class="flow">
+    <!-- 1 기업 -->
+    <div class="node">
+      <div class="circle"><span class="badge">1</span>
+        <svg width="82" height="82" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="15" y="20" width="34" height="34" rx="3"/>
+          <path d="M32 20V11" stroke-width="3.4"/><circle cx="32" cy="8" r="3" fill="#4A5A00" stroke="none"/>
+          <g fill="#0F0F1E" stroke="none"><rect x="21" y="26" width="6" height="6" rx="1"/><rect x="29" y="26" width="6" height="6" rx="1"/><rect x="37" y="26" width="6" height="6" rx="1"/><rect x="21" y="35" width="6" height="6" rx="1"/><rect x="29" y="35" width="6" height="6" rx="1"/><rect x="37" y="35" width="6" height="6" rx="1"/></g>
+          <rect x="28" y="45" width="8" height="9" rx="1" fill="#0F0F1E" stroke="none"/>
+        </svg>
+      </div>
+      <div class="lbl">기업 방문·열람</div>
+      <div class="dsc">고객사가 우리<br>콘텐츠에 접근</div>
+    </div>
+
+    <div class="conn"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+      <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B9C0AE"/><stop offset="1" stop-color="#2E9E3C"/></linearGradient></defs>
+      <line x1="0" y1="12" x2="88" y2="12" stroke="url(#g1)" stroke-width="4" stroke-dasharray="2 7" stroke-linecap="round"/>
+      <path d="M88 5L98 12L88 19Z" fill="#2E9E3C"/></svg></div>
+
+    <!-- 2 신호 -->
+    <div class="node">
+      <div class="circle trust"><span class="badge">2</span>
+        <svg width="82" height="82" viewBox="0 0 64 64" fill="none" stroke-linecap="round">
+          <path d="M20 40a17 17 0 0 1 24 0" stroke="#4A5A00" stroke-width="3.6"/>
+          <path d="M15 34a25 25 0 0 1 34 0" stroke="#2E9E3C" stroke-width="3.6"/>
+          <path d="M10 28a33 33 0 0 1 44 0" stroke="#9AA6AE" stroke-width="3.4"/>
+          <circle cx="32" cy="46" r="4.5" fill="#0F0F1E"/>
+        </svg>
+      </div>
+      <div class="lbl">익명 신호 발생</div>
+      <div class="dsc">IP · 페이지 체류<br>가격표 조회</div>
+      <span class="pill">비식별</span>
+    </div>
+
+    <div class="conn"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+      <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B9C0AE"/><stop offset="1" stop-color="#0F0F1E"/></linearGradient></defs>
+      <line x1="0" y1="12" x2="88" y2="12" stroke="url(#g2)" stroke-width="4" stroke-dasharray="2 7" stroke-linecap="round"/>
+      <path d="M88 5L98 12L88 19Z" fill="#0F0F1E"/></svg></div>
+
+    <!-- 3 분석 -->
+    <div class="node">
+      <div class="circle"><span class="badge">3</span>
+        <svg width="82" height="82" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="28" cy="28" r="15" stroke-width="3.6" fill="#E7FE55"/>
+          <path d="M39 39L50 50" stroke-width="6"/>
+          <path d="M22 28h12M28 22v12" stroke="#4A5A00" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="lbl">MORI 분석</div>
+      <div class="dsc">비식별 신호를<br>구매 맥락으로 해석</div>
+    </div>
+
+    <div class="conn"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+      <defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0F0F1E"/><stop offset="1" stop-color="#4A5A00"/></linearGradient></defs>
+      <line x1="0" y1="12" x2="88" y2="12" stroke="url(#g3)" stroke-width="4" stroke-dasharray="2 7" stroke-linecap="round"/>
+      <path d="M88 5L98 12L88 19Z" fill="#4A5A00"/></svg></div>
+
+    <!-- 4 결과 -->
+    <div class="node">
+      <div class="circle out"><span class="badge">4</span>
+        <svg width="82" height="82" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="30" r="19" stroke-width="3.2"/>
+          <circle cx="32" cy="30" r="11" stroke-width="3.2"/>
+          <circle cx="32" cy="30" r="4" fill="#0F0F1E" stroke="none"/>
+          <path d="M32 30 L52 12" stroke-width="3.2"/><path d="M46 12h6v6" stroke-width="3.2"/>
+        </svg>
+      </div>
+      <div class="lbl">구매 맥락 도출</div>
+      <div class="dsc"><b>‘어느 기업’</b>이<br><b>‘무엇에 관심’</b>인지</div>
+    </div>
+  </div>
+
+  <div class="guard">
+    <svg class="sh" width="60" height="60" viewBox="0 0 64 64">
+      <path d="M32 5l22 8v16c0 15-9.5 24-22 30C19.5 53 10 44 10 29V13z" fill="#E7FE55"/>
+      <rect x="24" y="30" width="16" height="14" rx="2.5" fill="#242A3B"/>
+      <path d="M26 30v-4a6 6 0 0 1 12 0v4" fill="none" stroke="#242A3B" stroke-width="3.2"/>
+      <circle cx="32" cy="36" r="2.4" fill="#E7FE55"/><rect x="31" y="37" width="2" height="4" rx="1" fill="#E7FE55"/>
+    </svg>
+    <div class="gt">
+      <b>개인 신상은 보지 않습니다</b>
+      <p>이름 · 개인 전화번호 · 주민등록번호 · 개인 이메일 &nbsp;→&nbsp; 수집·추적하지 않음 · <em>개인정보보호법 / GDPR 규제 안심</em></p>
+    </div>
+  </div>
+</div></body></html>

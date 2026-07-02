@@ -1,0 +1,108 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<style>
+:root{--ink:#0F0F1E;--bg:#FAFAF5;--sec:#F2F3E8;--warm:#E8E6DC;--lime:#E7FE55;--lime-ink:#4A5A00;
+  --trust:#2E9E3C;--info:#3B82F6;--slate:#242A3B;--mute:#7A8091;--sky:#7FE7E5;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1600px;height:952px}
+body{background:
+    radial-gradient(1200px 520px at 84% -10%, rgba(127,231,229,.12), transparent 60%),
+    radial-gradient(900px 480px at 6% 112%, rgba(231,254,85,.14), transparent 55%),
+    var(--bg);
+  font-family:"Pretendard","Apple SD Gothic Neo",-apple-system,sans-serif;color:var(--ink);
+  padding:58px 64px;position:relative;overflow:hidden}
+body::before{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(15,15,30,.045) 1.3px, transparent 1.3px);
+  background-size:26px 26px;opacity:.6;pointer-events:none}
+.wrap{position:relative;z-index:1}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--lime);
+  font-weight:800;font-size:22px;padding:11px 20px;border-radius:24px}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--lime)}
+h1{font-size:46px;font-weight:800;letter-spacing:-.6px;text-align:center;margin:32px 0 12px}
+h1 .hl{background:linear-gradient(transparent 62%, rgba(231,254,85,.55) 62%);padding:0 4px}
+.sub{text-align:center;color:var(--mute);font-size:23px;font-weight:500}
+.cols{display:flex;align-items:center;margin-top:52px}
+.col{flex:1;display:flex;flex-direction:column;align-items:center}
+.arw{flex:0 0 52px;text-align:center;color:var(--lime-ink);font-size:34px;font-weight:800}
+.cap{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:800;margin-bottom:18px}
+.cap .ico{width:52px;height:52px;border-radius:50%;background:var(--ink);
+  display:flex;align-items:center;justify-content:center}
+.cap .n{width:26px;height:26px;border-radius:50%;background:var(--lime);color:var(--lime-ink);
+  font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.card{width:100%;border-radius:16px;padding:20px 20px;min-height:132px}
+.card .tag{font-size:13px;font-weight:800;letter-spacing:.06em;display:inline-flex;
+  align-items:center;gap:6px;padding:4px 11px;border-radius:14px;margin-bottom:10px}
+.card .txt{font-size:19px;line-height:1.5;font-weight:600}
+.card .txt b{font-weight:800}
+.rest{background:#fff;border:1.5px solid var(--warm);box-shadow:0 10px 26px -18px rgba(15,15,30,.3)}
+.rest .tag{background:var(--sec);color:var(--slate)}
+.rest .txt{color:#20242e}
+.mori{background:var(--ink);border:1.5px solid var(--lime-ink)}
+.mori .tag{background:var(--lime);color:var(--lime-ink)}
+.mori .txt{color:#fff}.mori .txt b{color:var(--lime)}
+.eq{display:flex;flex-direction:column;align-items:center;gap:2px;margin:11px 0;color:var(--lime-ink)}
+.eq .s{font-size:30px;font-weight:800;line-height:.8}
+.eq .l{font-size:12px;font-weight:800;color:var(--mute);letter-spacing:.08em}
+.guard{margin-top:46px;background:var(--slate);border-radius:20px;padding:24px 32px;
+  display:flex;align-items:center;gap:22px;box-shadow:0 20px 50px -22px rgba(15,15,30,.55)}
+.guard .gt{color:#fff}
+.guard .gt b{font-size:25px;font-weight:800}
+.guard .gt p{font-size:19px;color:#C4CAD6;margin-top:6px;font-weight:500}
+.guard .gt em{color:var(--lime);font-style:normal;font-weight:700}
+</style></head>
+<body><div class="wrap">
+  <div style="text-align:center"><span class="chip"><i></i>세일즈 인텔리전스 · 3부</span></div>
+  <h1>우리는 <span class="hl">‘베테랑 식당 매니저’</span>처럼 일합니다</h1>
+  <div class="sub">개인 신상을 뒤지지 않고, ‘관심 신호’만 읽어 최적의 타이밍에 제안하는 원리</div>
+
+  <div class="cols">
+    <!-- 1 관심 -->
+    <div class="col">
+      <div class="cap"><span class="ico">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E7FE55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+      </span><span class="n">1</span>관심 신호</div>
+      <div class="card rest"><span class="tag">🍽 식당에서</span><div class="txt">손님이 <b>스테이크 메뉴</b>를 3분간 유심히 응시</div></div>
+      <div class="eq"><span class="s">≈</span><span class="l">같은 원리</span></div>
+      <div class="card mori"><span class="tag">MORI에서</span><div class="txt">기업이 <b>가격·스펙 장표</b>에 3분 이상 체류</div></div>
+    </div>
+
+    <div class="arw">→</div>
+
+    <!-- 2 포착 -->
+    <div class="col">
+      <div class="cap"><span class="ico">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E7FE55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </span><span class="n">2</span>포착·분석</div>
+      <div class="card rest"><span class="tag">🍽 식당에서</span><div class="txt"><b>베테랑 매니저</b>가 그 관심을 놓치지 않고 포착</div></div>
+      <div class="eq"><span class="s">≈</span><span class="l">같은 원리</span></div>
+      <div class="card mori"><span class="tag">MORI에서</span><div class="txt"><b>AI</b>가 비식별 관심 신호를 맥락으로 분석</div></div>
+    </div>
+
+    <div class="arw">→</div>
+
+    <!-- 3 제안 -->
+    <div class="col">
+      <div class="cap"><span class="ico">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E7FE55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4v-4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/><path d="M8 10h8M8 13h5"/></svg>
+      </span><span class="n">3</span>최적 제안</div>
+      <div class="card rest"><span class="tag">🍽 식당에서</span><div class="txt">타이밍 맞춰 <b>“오늘 안심 스테이크가 좋습니다”</b></div></div>
+      <div class="eq"><span class="s">≈</span><span class="l">같은 원리</span></div>
+      <div class="card mori"><span class="tag">MORI에서</span><div class="txt">관심에 맞춘 <b>세일즈 메시지</b>를 담당자에게 코칭</div></div>
+    </div>
+  </div>
+
+  <div class="guard">
+    <svg width="56" height="56" viewBox="0 0 64 64">
+      <path d="M32 5l22 8v16c0 15-9.5 24-22 30C19.5 53 10 44 10 29V13z" fill="#E7FE55"/>
+      <rect x="24" y="30" width="16" height="14" rx="2.5" fill="#242A3B"/>
+      <path d="M26 30v-4a6 6 0 0 1 12 0v4" fill="none" stroke="#242A3B" stroke-width="3.2"/>
+      <circle cx="32" cy="36" r="2.4" fill="#E7FE55"/><rect x="31" y="37" width="2" height="4" rx="1" fill="#E7FE55"/>
+    </svg>
+    <div class="gt">
+      <b>손님의 지갑·신분증은 뒤지지 않습니다</b>
+      <p>오직 ‘메뉴를 보는 관심’만 봅니다 &nbsp;=&nbsp; 개인 식별 정보가 아닌 <em>비식별 관심 신호</em>만 분석 · 개인정보보호법/GDPR 안심</p>
+    </div>
+  </div>
+</div></body></html>

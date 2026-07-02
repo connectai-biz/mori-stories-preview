@@ -1,0 +1,74 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<style>
+:root{--ink:#0F0F1E;--bg:#FAFAF5;--sec:#F2F3E8;--lime:#E7FE55;--lime-ink:#4A5A00;--trust:#2E9E3C;--slate:#242A3B;--mute:#7A8091;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:820px}
+body{background:radial-gradient(900px 500px at 90% -6%,rgba(127,231,229,.10),transparent 60%),var(--bg);
+  font-family:"Pretendard","Apple SD Gothic Neo",sans-serif;color:var(--ink);padding:56px 52px;position:relative;overflow:hidden}
+body::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(15,15,30,.045) 1.4px,transparent 1.4px);background-size:28px 28px;opacity:.6}
+.wrap{position:relative;z-index:1}
+.chip{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:var(--lime);font-weight:800;font-size:26px;padding:12px 22px;border-radius:26px}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--lime)}
+h1{font-size:50px;font-weight:800;letter-spacing:-.5px;line-height:1.2;margin:26px 0 14px}
+h1 .hl{background:linear-gradient(transparent 60%,rgba(231,254,85,.55) 60%);padding:0 4px}
+.sub{color:var(--mute);font-size:26px;font-weight:500;line-height:1.5;margin-bottom:20px}
+.step{display:flex;align-items:center;gap:26px;padding:8px 0}
+.circ{flex:none;width:134px;height:134px;border-radius:50%;background:#fff;border:4px solid var(--ink);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 18px 40px -18px rgba(15,15,30,.4)}
+.circ.trust{border-color:var(--trust)}
+.circ.out{background:linear-gradient(150deg,#F3FF9E,var(--lime));border-color:var(--lime-ink)}
+.bdg{position:absolute;top:-8px;right:-8px;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--lime);font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center}
+.tx .lbl{font-size:36px;font-weight:800;line-height:1.15}
+.tx .dsc{font-size:26px;color:var(--mute);font-weight:500;margin-top:6px;line-height:1.4}
+.tx .pill{display:inline-block;background:var(--sec);color:var(--lime-ink);font-weight:800;font-size:21px;padding:4px 14px;border-radius:20px;margin-top:10px}
+.vc{width:5px;height:40px;margin:2px 0 2px 64px;border-radius:3px;background:repeating-linear-gradient(var(--mute) 0 6px,transparent 6px 14px)}
+.guard{margin-top:30px;background:var(--slate);border-radius:22px;padding:28px 30px;display:flex;gap:22px;align-items:center;box-shadow:0 20px 50px -22px rgba(15,15,30,.55)}
+.guard .gt b{color:#fff;font-size:30px;font-weight:800;display:block}
+.guard .gt p{color:#C4CAD6;font-size:23px;margin-top:8px;line-height:1.5;font-weight:500}
+.guard .gt em{color:var(--lime);font-style:normal;font-weight:700}
+</style></head>
+<body><div class="wrap">
+  <span class="chip"><i></i>세일즈 인텔리전스 · 1부</span>
+  <h1>개인을 추적하지 않습니다.<br>기업의 <span class="hl">‘관심 신호’</span>를 읽습니다.</h1>
+  <div class="sub">웹 방문·제안서 열람의 비식별 신호만으로 구매 맥락을 파악하는 흐름</div>
+
+  <div class="step">
+    <div class="circ"><span class="bdg">1</span>
+      <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="15" y="20" width="34" height="34" rx="3"/><path d="M32 20V11"/><circle cx="32" cy="8" r="3" fill="#4A5A00" stroke="none"/>
+        <g fill="#0F0F1E" stroke="none"><rect x="21" y="26" width="6" height="6" rx="1"/><rect x="29" y="26" width="6" height="6" rx="1"/><rect x="37" y="26" width="6" height="6" rx="1"/><rect x="21" y="35" width="6" height="6" rx="1"/><rect x="29" y="35" width="6" height="6" rx="1"/><rect x="37" y="35" width="6" height="6" rx="1"/></g>
+        <rect x="28" y="45" width="8" height="9" rx="1" fill="#0F0F1E" stroke="none"/></svg>
+    </div>
+    <div class="tx"><div class="lbl">기업 방문·열람</div><div class="dsc">고객사가 우리 콘텐츠에 접근</div></div>
+  </div>
+  <div class="vc"></div>
+  <div class="step">
+    <div class="circ trust"><span class="bdg">2</span>
+      <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke-linecap="round">
+        <path d="M20 40a17 17 0 0 1 24 0" stroke="#4A5A00" stroke-width="3.6"/><path d="M15 34a25 25 0 0 1 34 0" stroke="#2E9E3C" stroke-width="3.6"/><path d="M10 28a33 33 0 0 1 44 0" stroke="#9AA6AE" stroke-width="3.4"/><circle cx="32" cy="46" r="4.5" fill="#0F0F1E"/></svg>
+    </div>
+    <div class="tx"><div class="lbl">익명 신호 발생</div><div class="dsc">IP · 페이지 체류 · 가격표 조회</div><span class="pill">비식별</span></div>
+  </div>
+  <div class="vc"></div>
+  <div class="step">
+    <div class="circ"><span class="bdg">3</span>
+      <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="28" cy="28" r="15" stroke-width="3.6" fill="#E7FE55"/><path d="M39 39L50 50" stroke-width="6"/><path d="M22 28h12M28 22v12" stroke="#4A5A00" stroke-width="3"/></svg>
+    </div>
+    <div class="tx"><div class="lbl">MORI 분석</div><div class="dsc">비식별 신호를 구매 맥락으로 해석</div></div>
+  </div>
+  <div class="vc"></div>
+  <div class="step">
+    <div class="circ out"><span class="bdg">4</span>
+      <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="32" cy="30" r="19" stroke-width="3.2"/><circle cx="32" cy="30" r="11" stroke-width="3.2"/><circle cx="32" cy="30" r="4" fill="#0F0F1E" stroke="none"/><path d="M32 30 L52 12" stroke-width="3.2"/><path d="M46 12h6v6" stroke-width="3.2"/></svg>
+    </div>
+    <div class="tx"><div class="lbl">구매 맥락 도출</div><div class="dsc">‘어느 기업’이 ‘무엇에 관심’인지</div></div>
+  </div>
+
+  <div class="guard">
+    <svg width="66" height="66" viewBox="0 0 64 64" style="flex:none">
+      <path d="M32 5l22 8v16c0 15-9.5 24-22 30C19.5 53 10 44 10 29V13z" fill="#E7FE55"/>
+      <rect x="24" y="30" width="16" height="14" rx="2.5" fill="#242A3B"/><path d="M26 30v-4a6 6 0 0 1 12 0v4" fill="none" stroke="#242A3B" stroke-width="3.2"/><circle cx="32" cy="36" r="2.4" fill="#E7FE55"/><rect x="31" y="37" width="2" height="4" rx="1" fill="#E7FE55"/></svg>
+    <div class="gt"><b>개인 신상은 보지 않습니다</b><p>이름·전화·주민번호·이메일 → 수집·추적하지 않음 · <em>개인정보보호법/GDPR 안심</em></p></div>
+  </div>
+</div></body></html>

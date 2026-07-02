@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MORI 사용 가이드 — 명함 한 장에서 첫 거래까지</title>
+<style>
+/* ============================================================
+   MORI v3.1 Design Tokens (SSOT: connect-ai-frontend/globals.css)
+   ============================================================ */
+:root{
+  --bg-white:#FAFAF5;
+  --bg-section:#F2F3E8;
+  --border-warm:#E8E6DC;
+  --border-default:#E5E5E5;
+  --ink:#0F0F1E;
+  --ink-fg:#E8E6DC;
+  --text-primary:#111111;
+  --gray-strong:#4F5F66;
+  --gray:#9A9A8E;
+  --lime:#E7FE55;
+  --lime-ink:#4A5A00;
+  --info:#3B82F6;
+  --trust:#2E9E3C;
+  --sky:#7FE7E5;
+  --error-border:#FCA5A5;
+
+  --maxw:1200px;
+  --gutter:24px;
+  --serif:"Iowan Old Style","Apple SD Gothic Neo",Georgia,"Nanum Myeongjo",serif;
+  --sans:"Pretendard","Apple SD Gothic Neo","Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{
+  font-family:var(--sans);
+  color:var(--text-primary);
+  background:var(--bg-white);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+::selection{background:var(--lime);color:var(--lime-ink)}
+
+/* ============================================================
+   1. HERO  (fixed video stage, scroll-scrubbed)
+   ============================================================ */
+.hero{
+  position:fixed;inset:0;height:100vh;width:100%;
+  z-index:0;overflow:hidden;
+  background:var(--bg-section);
+}
+/* animated MORI-tone "fiber/network" background (no external video) */
+.hero-bg{position:absolute;inset:0;will-change:transform}
+/* optional background video (hidden until #heroVideo has a data-src) */
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;display:none;will-change:transform}
+body.has-video .hero-video{display:block}
+body.has-video .hero-bg,body.has-video .hero-net{display:none}
+.blob{position:absolute;border-radius:50%;filter:blur(48px);opacity:.85;mix-blend-mode:multiply}
+.blob.b1{width:46vw;height:46vw;left:-6vw;top:18vh;background:radial-gradient(circle,#9fd0ff,#3B82F6 70%);animation:drift1 18s ease-in-out infinite}
+.blob.b2{width:40vw;height:40vw;left:32vw;top:6vh;background:radial-gradient(circle,#ff9ad1,#d94fa0 70%);animation:drift2 22s ease-in-out infinite}
+.blob.b3{width:50vw;height:50vw;right:-8vw;top:10vh;background:radial-gradient(circle,#ffe08a,#f0a93c 70%);animation:drift3 20s ease-in-out infinite}
+.blob.b4{width:30vw;height:30vw;left:18vw;top:36vh;background:radial-gradient(circle,#bdee6a,#9ec92f 70%);animation:drift1 24s ease-in-out infinite reverse}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,-4vh) scale(1.08)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-5vw,5vh) scale(1.12)}}
+@keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-4vw,-3vh) scale(1.06)}}
+/* dotted network overlay */
+.hero-net{position:absolute;inset:0;opacity:.5;
+  background-image:radial-gradient(rgba(15,15,30,.25) 1px,transparent 1.4px);
+  background-size:30px 30px;mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent)}
+/* warm veil that lifts on scroll to reveal vivid colors */
+.hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(250,250,245,.62) 0%,rgba(250,250,245,.40) 50%,rgba(250,250,245,.72) 100%);will-change:opacity}
+body.has-video .hero-veil{background:linear-gradient(180deg,rgba(15,15,30,.55) 0%,rgba(15,15,30,.28) 45%,rgba(15,15,30,.66) 100%)}
+.hero-paused .hero-bg{animation-play-state:paused}
+.hero-paused .blob{animation-play-state:paused}
+
+.hero-inner{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:2;will-change:transform,opacity}
+.hero-brand{position:absolute;top:22px;left:32px;display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;color:var(--text-primary);z-index:3}
+.hero-brand .dot{width:22px;height:22px;border-radius:7px;background:var(--lime);display:inline-block}
+.hero-menu-btn{position:absolute;top:24px;left:auto;right:auto}
+h1.hero-title{
+  font-family:var(--serif);
+  font-weight:800;
+  font-size:clamp(34px,5vw,68px);
+  line-height:1.16;
+  letter-spacing:-.01em;
+  color:var(--text-primary);
+  max-width:16ch;
+  text-shadow:0 2px 30px rgba(250,250,245,.6);
+}
+.hero-sub{margin-top:20px;font-size:clamp(14px,1.4vw,17px);font-weight:600;line-height:1.6;letter-spacing:.01em;color:var(--gray-strong);max-width:34ch;text-shadow:0 1px 12px rgba(250,250,245,.6)}
+/* over video: dark scrim + light bold text for legibility */
+body.has-video h1.hero-title{color:var(--bg-white);text-shadow:0 2px 26px rgba(15,15,30,.65),0 1px 3px rgba(15,15,30,.55)}
+body.has-video .hero-sub{color:var(--ink-fg);text-shadow:0 1px 16px rgba(15,15,30,.7)}
+body.has-video .hero-brand{color:var(--bg-white)}
+body.has-video .chevron{stroke:var(--bg-white)}
+.chevron{margin-top:38px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* hero fixed UI */
+.hero-toolbar{position:fixed;top:120px;right:22px;z-index:6;display:flex;flex-direction:column;gap:8px}
+.hero-toolbar button{width:38px;height:38px;border-radius:10px;border:1px solid var(--border-warm);background:rgba(255,255,255,.85);backdrop-filter:blur(6px);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-primary)}
+.hero-toolbar button:hover{background:#fff;border-color:var(--gray)}
+.chat-bubble{position:fixed;right:24px;bottom:26px;z-index:7;width:56px;height:56px;border-radius:50%;background:var(--info);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(59,130,246,.4)}
+.pause-btn{position:fixed;right:24px;bottom:26px;z-index:6;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;border:none;cursor:pointer;display:none;align-items:center;justify-content:center}
+.pause-btn.show{display:flex}
+.chat-bubble.nudge{bottom:78px}
+
+/* ============================================================
+   2. STICKY HEADER
+   ============================================================ */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(250,250,245,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border-default);
+  transform:translateY(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}
+body.scrolled .topbar{transform:translateY(0)}
+.topbar-inner{max-width:1340px;margin:0 auto;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.topbar-title{font-weight:600;font-size:15px;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw}
+.topbar-actions{display:flex;align-items:center;gap:20px}
+.topbar-actions .act{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:var(--gray-strong);cursor:pointer;background:none;border:none}
+.topbar-actions .act svg{width:18px;height:18px}
+.topbar-actions .act:hover{color:var(--text-primary)}
+.progress-rail{position:absolute;top:0;left:0;height:3px;background:var(--lime);width:0%}
+.btn-ai{display:inline-flex;align-items:center;gap:6px;background:var(--lime);color:var(--lime-ink);border:1px solid var(--border-default);border-radius:9px;padding:9px 16px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap}
+.btn-ai:hover{filter:brightness(1.04)}
+
+/* ============================================================
+   3. CONTENT (slides up over fixed hero)
+   ============================================================ */
+.content{position:relative;z-index:2;background:var(--bg-white);margin-top:160vh;
+  box-shadow:0 -40px 80px rgba(15,15,30,.06)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+.col-main{max-width:720px;margin:0 auto}
+
+/* inline action bar */
+.action-bar{display:flex;align-items:center;justify-content:space-between;padding:48px 0 8px}
+.action-left{display:flex;gap:26px}
+.action-left .act{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--gray-strong);cursor:pointer;background:none;border:none}
+.action-left .act svg{width:20px;height:20px}
+.action-left .act:hover{color:var(--text-primary)}
+
+.lede{font-family:var(--serif);font-size:clamp(20px,2.2vw,27px);line-height:1.6;color:var(--text-primary);padding:30px 0 8px}
+.audio-row{display:flex;align-items:center;gap:14px;border-top:1px solid var(--border-warm);border-bottom:1px solid var(--border-warm);padding:18px 0;margin:24px 0 0}
+.audio-play{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
+.audio-meta{font-size:13px;color:var(--gray-strong)}
+.audio-meta b{color:var(--text-primary)}
+.audio-brand{margin-left:auto;font-size:11px;letter-spacing:.08em;color:var(--gray);font-weight:700}
+
+/* two-column body+rail */
+.body-grid{display:grid;grid-template-columns:minmax(0,720px) 280px;gap:48px;justify-content:center;padding:64px 0}
+@media(max-width:1080px){.body-grid{grid-template-columns:1fr;max-width:720px;margin:0 auto}.side-rail{display:none}}
+.side-rail{padding-top:8px}
+.side-rail .rail-block{border-top:1px solid var(--text-primary);padding-top:14px;margin-bottom:28px}
+.side-rail h4{font-size:14px;font-weight:700;margin-bottom:10px}
+.side-rail a{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--info);text-decoration:none;padding:4px 0}
+.side-rail a:hover{text-decoration:underline}
+
+h2.sec{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3vw,38px);line-height:1.3;margin:0 0 6px;scroll-margin-top:90px}
+.sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--lime-ink);text-transform:uppercase;margin-bottom:14px}
+.sec-block{padding:0 0 18px}
+.content p.body{font-size:17px;line-height:1.85;color:#1c1c1c;margin:18px 0}
+.content p.body b{font-weight:700}
+.k-strong{background:linear-gradient(180deg,transparent 60%,rgba(231,254,85,.6) 60%)}
+
+ol.findings{margin:22px 0 8px;padding-left:0;list-style:none;counter-reset:f}
+ol.findings li{counter-increment:f;position:relative;padding:14px 0 14px 44px;border-bottom:1px solid var(--border-warm);font-size:16px;line-height:1.7}
+ol.findings li::before{content:counter(f);position:absolute;left:0;top:13px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+ol.findings li b{color:var(--text-primary)}
+
+/* callout / sidebar box (gray) */
+.callout{background:var(--bg-section);border:1px solid var(--border-warm);border-radius:14px;padding:22px 24px;margin:26px 0}
+.callout .c-tag{font-size:11px;letter-spacing:.08em;color:var(--gray-strong);font-weight:700;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.callout .c-tag .plus{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px}
+.callout p{font-size:15px;color:var(--text-primary);line-height:1.7}
+
+/* ============================================================
+   CHARTS (pure CSS/SVG, MORI palette)
+   ============================================================ */
+.chart{border-top:1px solid var(--border-warm);padding:34px 0 10px;margin:30px 0}
+.chart .ex{font-size:12px;color:var(--gray);margin-bottom:4px}
+.chart h3{font-size:19px;font-weight:700;margin:0 0 4px;line-height:1.4}
+.chart .sub{font-size:13px;color:var(--gray-strong);margin-bottom:20px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:18px;font-size:12px;color:var(--gray-strong)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.sbar-row{display:flex;align-items:center;gap:12px;margin:9px 0}
+.sbar-row .lab{width:120px;font-size:13px;text-align:right;color:var(--text-primary);flex:0 0 120px}
+.sbar{flex:1;height:26px;display:flex;border-radius:5px;overflow:hidden;background:#fff}
+.sbar div{display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:600}
+.vbars{display:flex;align-items:flex-end;gap:26px;height:240px;padding:0 6px;border-bottom:2px solid var(--text-primary);margin-bottom:8px}
+.vbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.vbar .bar{width:64%;border-radius:6px 6px 0 0;position:relative;transition:height .4s}
+.vbar .val{font-weight:700;font-size:18px;margin-bottom:6px}
+.vbar .cap{margin-top:10px;font-size:12px;color:var(--gray-strong);text-align:center}
+.foot-note{font-size:11px;color:var(--gray);margin-top:14px;line-height:1.5}
+
+/* ============================================================
+   4. CONVERSION GATE (modal)
+   ============================================================ */
+.gate-cta{background:var(--ink);color:var(--ink-fg);border-radius:20px;padding:56px;text-align:center;margin:40px auto 0;max-width:760px}
+.gate-cta h2{font-family:var(--serif);font-size:32px;color:#fff;margin-bottom:12px}
+.gate-cta p{color:rgba(232,230,220,.8);font-size:15px;margin-bottom:26px}
+.btn-lime{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--lime-ink);border:none;border-radius:12px;padding:15px 30px;font-weight:800;font-size:16px;cursor:pointer}
+.btn-lime:hover{filter:brightness(1.05)}
+
+.modal-back{position:fixed;inset:0;z-index:80;background:rgba(15,15,30,.45);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-back.show{display:flex}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:440px;padding:34px;box-shadow:0 30px 80px rgba(0,0,0,.3);position:relative}
+.modal h3{font-size:22px;font-weight:800;margin-bottom:6px}
+.modal .m-sub{font-size:13px;color:var(--gray-strong);margin-bottom:24px}
+.modal label{font-size:12px;font-weight:600;color:var(--text-primary);display:block;margin-bottom:6px}
+.modal input{width:100%;border:1px solid var(--border-default);border-radius:10px;padding:12px 14px;font-size:14px;font-family:var(--sans);outline:none}
+.modal input:focus{border-color:var(--info)}
+.modal input.err{border-color:var(--error-border);background:#fff5f5}
+.err-msg{color:#d33;font-size:12px;margin-top:6px;display:none}
+.err-msg.show{display:block}
+.modal .btn-lime{width:100%;justify-content:center;margin-top:18px}
+.sso{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.sso button{display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--border-default);background:#fff;border-radius:10px;padding:12px;font-size:14px;font-weight:600;cursor:pointer}
+.sso button:hover{background:var(--bg-section)}
+.divider{display:flex;align-items:center;gap:12px;color:var(--gray);font-size:12px;margin:18px 0}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--border-default)}
+.modal-x{position:absolute;top:16px;right:16px;border:none;background:none;cursor:pointer;color:var(--gray-strong);font-size:22px;line-height:1}
+
+/* ============================================================
+   5. ECOSYSTEM GRID
+   ============================================================ */
+.eco{padding:110px 0 90px}
+.eco h2{font-family:var(--serif);font-size:30px;text-align:center;margin-bottom:8px}
+.eco .eco-sub{text-align:center;color:var(--gray-strong);font-size:14px;margin-bottom:48px}
+.eco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:880px){.eco-grid{grid-template-columns:1fr}}
+.eco-card{border:1px solid var(--border-warm);border-radius:16px;overflow:hidden;background:#fff;cursor:pointer;transition:.25s;text-decoration:none;color:inherit;display:block}
+.eco-card:hover{box-shadow:0 16px 40px rgba(15,15,30,.10);transform:translateY(-3px);border-color:var(--gray)}
+.eco-thumb{aspect-ratio:16/9;background:var(--bg-section);position:relative;overflow:hidden}
+.eco-thumb .g{position:absolute;inset:0}
+.eco-thumb.t1 .g{background:linear-gradient(135deg,#bdee6a,#3B82F6)}
+.eco-thumb.t2 .g{background:linear-gradient(135deg,#7FE7E5,#2E9E3C)}
+.eco-thumb.t3 .g{background:linear-gradient(135deg,#ffe08a,#d94fa0)}
+.eco-body{padding:20px}
+.eco-meta{font-size:11px;letter-spacing:.06em;color:var(--gray);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.eco-title{font-size:18px;font-weight:700;line-height:1.4}
+.eco-desc{font-size:13px;color:var(--gray-strong);margin-top:8px}
+
+/* ============================================================
+   FOOTER (ink)
+   ============================================================ */
+footer{background:var(--ink);color:var(--ink-fg);padding:64px 0 40px;position:relative;z-index:2}
+.foot-grid{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px}
+.foot-brand{font-weight:800;font-size:22px;letter-spacing:.04em;display:flex;align-items:center;gap:10px}
+.foot-brand .dot{width:24px;height:24px;border-radius:7px;background:var(--lime)}
+.foot-brand p{font-weight:400;font-size:13px;color:rgba(232,230,220,.7);margin-top:14px;max-width:280px}
+.foot-col h5{font-size:12px;letter-spacing:.08em;color:rgba(232,230,220,.6);text-transform:uppercase;margin-bottom:14px}
+.foot-col a{display:block;color:var(--ink-fg);text-decoration:none;font-size:14px;padding:5px 0;opacity:.85}
+.foot-col a:hover{opacity:1;color:var(--lime)}
+.foot-bottom{max-width:var(--maxw);margin:40px auto 0;padding:24px var(--gutter) 0;border-top:1px solid rgba(232,230,220,.15);font-size:12px;color:rgba(232,230,220,.55);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* ============================================================
+   LEFT TOC
+   ============================================================ */
+.toc{position:fixed;left:0;top:50%;transform:translateY(-50%) translateX(-20px);z-index:45;width:188px;
+  background:rgba(250,250,245,.96);backdrop-filter:blur(6px);border:1px solid var(--border-warm);border-left:none;border-radius:0 12px 12px 0;
+  padding:30px 14px 18px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.toc.show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
+.toc-x{position:absolute;top:8px;right:10px;border:none;background:none;font-size:18px;color:var(--gray-strong);cursor:pointer;line-height:1}
+.toc ul{list-style:none}
+.toc li{display:flex;align-items:stretch;gap:10px;margin:2px 0;cursor:pointer}
+.toc .rail{width:4px;border-radius:3px;background:var(--border-warm);flex:0 0 4px}
+.toc li.active .rail{background:var(--lime)}
+.toc .t-txt{font-size:12px;line-height:1.4;color:var(--gray-strong);padding:8px 0}
+.toc li.active .t-txt{color:var(--text-primary);font-weight:700}
+.toc li:hover .t-txt{color:var(--text-primary)}
+
+/* collapsed TOC tab on the left edge */
+.toc-tab{position:fixed;left:0;top:50%;transform:translateY(-50%) translateX(-110%);z-index:46;
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:16px 9px;border:1px solid var(--border-warm);border-left:none;border-radius:0 12px 12px 0;
+  background:rgba(250,250,245,.96);backdrop-filter:blur(6px);color:var(--text-primary);cursor:pointer;
+  box-shadow:2px 4px 18px rgba(15,15,30,.10);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+.toc-tab.show{transform:translateY(-50%) translateX(0)}
+.toc-tab:hover{background:#fff}
+.toc-tab svg{color:var(--lime-ink)}
+.toc-tab .tt-label{writing-mode:vertical-rl;font-size:12px;font-weight:700;letter-spacing:.14em}
+
+/* AI summary drawer */
+.drawer-back{position:fixed;inset:0;z-index:70;background:rgba(15,15,30,.3);display:none}
+.drawer-back.show{display:block}
+.drawer{position:fixed;top:0;right:0;height:100%;width:420px;max-width:90vw;background:#fff;z-index:71;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:-20px 0 50px rgba(0,0,0,.15);padding:30px;overflow-y:auto}
+.drawer.show{transform:translateX(0)}
+.drawer h3{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:800;margin-bottom:6px}
+.drawer .chip{font-size:11px;background:var(--lime);color:var(--lime-ink);padding:3px 8px;border-radius:20px;font-weight:700}
+.drawer .d-sub{font-size:12px;color:var(--gray-strong);margin-bottom:22px}
+.drawer .sum-item{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--border-warm);font-size:14px;line-height:1.6}
+.drawer .sum-item .b{color:var(--trust);flex:0 0 auto;font-weight:800}
+.drawer-x{position:absolute;top:18px;right:18px;border:none;background:none;font-size:22px;cursor:pointer;color:var(--gray-strong)}
+
+@media(max-width:700px){
+  .hero-brand{font-size:14px;left:18px}
+  .action-bar{flex-wrap:wrap;gap:16px}
+  .hero-toolbar{top:auto;bottom:90px}
+  .gate-cta{padding:36px 22px}
+}
+.hero-brand{text-decoration:none;cursor:pointer}
+.tb-left{display:flex;align-items:center;gap:14px;min-width:0}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--gray-strong);background:var(--bg-section);border:1px solid var(--border-warm);border-radius:22px;padding:7px 14px;white-space:nowrap;text-decoration:none;cursor:pointer;transition:all .15s}
+.back-btn:hover{color:var(--text-primary);border-color:var(--gray)}
+.back-btn-lg{font-size:14px;padding:12px 24px}
+.back-btn-lg:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.crumb{font-size:12.5px;color:var(--gray);padding:28px 0 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.crumb a{color:var(--gray-strong);text-decoration:none}
+.crumb a:hover{color:var(--text-primary)}
+.crumb em{font-style:normal;color:var(--text-primary);font-weight:600}
+.crumb span{color:var(--gray)}
+.logo-mark{width:24px;height:24px;border-radius:7px;display:inline-block;vertical-align:middle;object-fit:cover}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <!-- ▼ 배경 영상 교체 지점: data-src 에 영상 파일명을 넣으면 자동으로 영상 배경으로 바뀝니다.
+       (이 HTML 파일과 같은 폴더에 mp4 파일을 두고 파일명만 입력) 예: data-src="mori-hero.mp4" -->
+  <video class="hero-video" id="heroVideo" data-src="mori-hero.mp4" muted loop playsinline autoplay></video>
+  <div class="hero-bg" id="heroBg">
+    <div class="blob b1"></div><div class="blob b2"></div>
+    <div class="blob b3"></div><div class="blob b4"></div>
+  </div>
+  <div class="hero-net"></div>
+  <div class="hero-veil" id="heroVeil"></div>
+
+  <a class="hero-brand" href="mori-stories-2026-07-01.html" title="MORI Stories 목록으로"><img class="logo-mark" src="mori-icon.gif" alt="MORI">MORI</a>
+
+  <div class="hero-inner" id="heroInner">
+    <h1 class="hero-title">명함을 거래로<br>바꾸는 AI</h1>
+    <div class="hero-sub">박람회에서 모은 명함을 분석해,<br>가장 가능성 높은 바이어부터 연결합니다</div>
+    <svg class="chevron" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4F5F66" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+</section>
+
+<!-- hero fixed UI -->
+<div class="hero-toolbar" id="heroToolbar">
+  <button title="공유"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+  <button title="편집"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+  <button title="저장"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+  <button title="MORI"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+</div>
+<button class="pause-btn show" id="pauseBtn" title="배경 일시정지">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+</button>
+<button class="chat-bubble" id="chatBtn" title="MORI 도우미">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-12 7.6L3 21l1.9-6A8.4 8.4 0 1 1 21 11.5z"/></svg>
+</button>
+
+<!-- ================= STICKY HEADER ================= -->
+<header class="topbar" id="topbar">
+  <div class="progress-rail" id="progressRail"></div>
+  <div class="topbar-inner">
+    <div class="tb-left">
+      <a class="back-btn" href="mori-stories-2026-07-01.html">← 목록</a>
+      <div class="topbar-title">명함 한 장에서 첫 거래까지 — MORI 사용 가이드</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>공유하다</button>
+      <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>인쇄</button>
+      <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>다운로드</button>
+      <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>구하다</button>
+      <button class="btn-ai" onclick="openDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15l-1.9-4.1L5.5 9l4.6-1.4z"/></svg>요약하다</button>
+    </div>
+  </div>
+</header>
+
+<!-- collapsed TOC tab (left edge) — click to reopen -->
+<button class="toc-tab" id="tocTab" onclick="openToc()" title="목차 열기">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  <span class="tt-label">목차</span>
+</button>
+
+<!-- ================= LEFT TOC ================= -->
+<nav class="toc" id="toc">
+  <button class="toc-x" onclick="closeToc()" title="목차 닫기">✕</button>
+  <ul id="tocList">
+    <li data-target="start"><span class="rail"></span><span class="t-txt">MORI 시작하기</span></li>
+    <li data-target="project"><span class="rail"></span><span class="t-txt">프로젝트 생성</span></li>
+    <li data-target="buyer"><span class="rail"></span><span class="t-txt">바이어 관리</span></li>
+    <li data-target="message"><span class="rail"></span><span class="t-txt">메시지 발송</span></li>
+    <li data-target="card"><span class="rail"></span><span class="t-txt">카드형 메시지</span></li>
+    <li data-target="brochure"><span class="rail"></span><span class="t-txt">브로셔 활용</span></li>
+  </ul>
+</nav>
+
+<!-- ================= CONTENT ================= -->
+<main class="content">
+  <div class="wrap">
+    <div class="col-main">
+      <!-- breadcrumb -->
+      <nav class="crumb"><a href="mori-stories-2026-07-01.html">MORI Stories</a><span>›</span><a href="mori-stories-2026-07-01.html">가이드</a><span>›</span><em>명함을 거래로 바꾸는 AI</em></nav>
+
+      <!-- inline action bar -->
+      <div class="action-bar">
+        <div class="action-left">
+          <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>공유하다</button>
+          <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>인쇄</button>
+          <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>다운로드</button>
+          <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>구하다</button>
+        </div>
+        <button class="btn-ai" onclick="openDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15l-1.9-4.1L5.5 9l4.6-1.4z"/></svg>요약하다</button>
+      </div>
+
+      <p class="lede">MORI는 명함 스캔으로 바이어를 모으고, 관심도·신뢰도를 분석해, 개인화된 메시지와 브로셔로 첫 거래를 만드는 <b>AI 기반 글로벌 B2B 세일즈 인텔리전스 플랫폼</b>입니다. 이 가이드는 프로젝트 생성부터 바이어 관리, 메시지 발송까지 실제 운영 흐름을 그대로 따라갑니다.</p>
+
+      <div class="audio-row">
+        <button class="audio-play"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l16 9-16 9z"/></svg></button>
+        <div class="audio-meta"><b>MORI 팀</b> — 5분 만에 듣는 MORI 시작 가이드</div>
+        <div class="audio-brand">▶ MORI AUDIO</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- two-column body -->
+  <div class="wrap">
+    <div class="body-grid">
+      <article>
+        <!-- intro key findings -->
+        <div class="sec-block" style="padding-top:10px">
+          <h2 class="sec" style="font-size:30px">한눈에 보는 MORI</h2>
+          <ol class="findings">
+            <li><b>명함 OCR은 무료입니다.</b> 카메라 촬영 또는 파일 업로드로 이름·회사·이메일을 자동 수집하고, 선택한 박람회 리스트에 저장합니다.</li>
+            <li><b>Interest Engine × Trust Engine.</b> 관심도·신뢰도를 각각 0~100으로 산출해 바이어를 <b>즉시 연락 / 검토 필요 / 장기 육성</b>으로 자동 분류합니다.</li>
+            <li><b>개인화 발송은 1크레딧.</b> 이름·회사 등 7종 변수를 자동 치환하며, 1:1 메시지 1건당 1크레딧이 차감됩니다.</li>
+            <li><b>브로셔는 AI가 추천합니다.</b> 분류·언어별로 자료를 관리하고, 바이어에게 맞는 자료를 자동 제안하거나 메시지에 첨부합니다.</li>
+            <li><b>시작은 무료입니다.</b> 이메일 연동 시 웰컴 50크레딧이 지급되고, 명함 OCR·KPI 대시보드·프로젝트 생성은 무료로 제공됩니다.</li>
+          </ol>
+        </div>
+
+        <!-- SECTION 1 -->
+        <section class="sec-block" id="start" style="padding-top:50px">
+          <div class="sec-eyebrow">01 — Getting Started</div>
+          <h2 class="sec">MORI 시작하기</h2>
+          <p class="body">MORI를 시작할 준비가 되었습니다. <span class="k-strong">이메일 연결, 바이어 업로드, 브로셔 등록</span> 세 가지를 완료하면 홈에서 후속 필요 리드, 신호 상승, 브로셔 반응, AI 추천 액션을 한눈에 확인할 수 있습니다.</p>
+          <p class="body">로그인은 비밀번호 없이 <b>이메일 OTP(6자리, 10분 유효)</b> 방식이며, Gmail·Outlook 계정을 OAuth로 연동해 실제 발송 계정을 설정합니다. 프로필을 완료하면 운영 홈으로 진입합니다.</p>
+          <div class="callout">
+            <div class="c-tag"><span>시작 가이드 · 3단계</span><span class="plus">+</span></div>
+            <p><b>① 이메일 연결</b> — Gmail / Outlook 계정 연동 &nbsp;·&nbsp; <b>② 바이어 업로드</b> — CSV 또는 명함 촬영 &nbsp;·&nbsp; <b>③ 브로셔 등록</b> — 회사 자료 업로드 &nbsp;→&nbsp; <span style="color:var(--lime-ink);font-weight:700">운영 시작</span></p>
+          </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section class="sec-block" id="project" style="padding-top:50px">
+          <div class="sec-eyebrow">02 — Project</div>
+          <h2 class="sec">프로젝트 생성</h2>
+          <p class="body">리드와 브로셔를 선택해 캠페인을 만들고 첫 발송을 준비합니다. 캠페인은 <b>초안(draft) → 예약(scheduled) → 발송(sent) → 완료(done)</b> 상태로 흐르며, 생성 즉시 대상 리드 수와 진행 상태가 기록됩니다.</p>
+          <p class="body">아직 데이터가 없다면 홈은 "<span class="k-strong">오늘의 운영 현황</span>" 빈 상태로 시작합니다. <b>첫 캠페인 시작하기</b> 버튼으로 캠페인 생성에, <b>리드 보기</b>로 바이어 목록에 바로 진입할 수 있습니다.</p>
+
+          <div class="chart">
+            <div class="ex">증거물 1</div>
+            <h3>기능별 도입 단계</h3>
+            <div class="sub">MORI 운영 조직의 기능별 활용 단계, % 기준</div>
+            <div class="legend">
+              <span><i style="background:#9A9A8E"></i>미사용</span>
+              <span><i style="background:#7FE7E5"></i>체험</span>
+              <span><i style="background:#3B82F6"></i>도입</span>
+              <span><i style="background:#0F0F1E"></i>정착</span>
+            </div>
+            <div id="chart-stage"></div>
+          </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="sec-block" id="buyer" style="padding-top:50px">
+          <div class="sec-eyebrow">03 — Buyers</div>
+          <h2 class="sec">바이어 관리</h2>
+          <p class="body">바이어 리드는 <b>관심도(Interest)</b>와 <b>신뢰도(Trust)</b> 두 축으로 평가됩니다. 관심도는 오픈·클릭·체류·답장·미팅 신호를 가중합산(0~100)하고, 신뢰도는 이메일 도메인 품질을 기준으로 감점 방식(0~100)으로 계산합니다.</p>
+          <p class="body">리드 목록은 <span class="k-strong">즉시 연락 · 검토 필요 · 장기 육성</span> 우선순위로 필터링되며, 관심도가 임계치를 넘으면 <b>핫리드</b>로 자동 표시됩니다. 각 카드는 이름·회사·국가·이메일과 마지막 활동 신호를 함께 보여줍니다.</p>
+
+          <div class="chart">
+            <div class="ex">증거물 2</div>
+            <h3>바이어 우선순위 분포</h3>
+            <div class="sub">진행 중 프로젝트 기준, 전체 320명</div>
+            <div class="legend">
+              <span><i style="background:#0F0F1E"></i>즉시 연락</span>
+              <span><i style="background:#3B82F6"></i>검토 필요</span>
+              <span><i style="background:#E8E6DC"></i>장기 육성</span>
+            </div>
+            <div class="sbar-row">
+              <div class="lab">전체 바이어</div>
+              <div class="sbar">
+                <div style="width:18%;background:#0F0F1E">18%</div>
+                <div style="width:34%;background:#3B82F6">34%</div>
+                <div style="width:48%;background:#E8E6DC;color:#4F5F66">48%</div>
+              </div>
+            </div>
+            <div class="foot-note">즉시 연락 58명 · 검토 필요 109명 · 장기 육성 153명. 관심도(Interest) ≥ 70 인 바이어 41명은 핫리드로 자동 분류됩니다.</div>
+          </div>
+
+          <div class="chart">
+            <div class="ex">증거물 3</div>
+            <h3>관심도 점수 구간별 바이어 수</h3>
+            <div class="sub">Interest Score 0~100, 이벤트 즉시 + 1시간 재집계</div>
+            <div class="vbars" id="chart-interest"></div>
+            <div class="foot-note" style="margin-top:18px">* MORI 베타 운영 데이터 기준 예시. 81~100 구간이 핫리드 후보입니다.</div>
+          </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="sec-block" id="message" style="padding-top:50px">
+          <div class="sec-eyebrow">04 — Messaging</div>
+          <h2 class="sec">메시지 발송</h2>
+          <p class="body">개인화 변수를 활용해 메시지를 작성하고, 데스크톱·모바일 미리보기로 검증한 뒤 발송합니다. <b>{name}, {company}, {country}</b> 등 7종 변수가 자동 치환되며, 변수를 채울 수 없는 수신자가 있으면 발송 전 경고로 알려 기본값 설정이나 제외를 선택할 수 있습니다.</p>
+          <p class="body">작성 내용은 3초 디바운스로 자동 저장되고, <b>1:1 메시지는 1크레딧</b>, 브로셔를 포함하면 <b>5크레딧</b>이 차감됩니다. 발송 후에는 오픈·클릭·답장·미팅 신호가 실시간으로 관심도에 반영됩니다.</p>
+
+          <div class="chart">
+            <div class="ex">증거물 4</div>
+            <h3>발송 후 반응 퍼널</h3>
+            <div class="sub">최근 캠페인 평균, 발송 대비 %</div>
+            <div class="vbars" id="chart-funnel"></div>
+            <div class="foot-note" style="margin-top:18px">* MORI 베타 운영 데이터 기준 예시. 답장·미팅 단계는 관심도 가중치가 가장 높은 신호입니다(답장 +25, 미팅 +30).</div>
+          </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section class="sec-block" id="card" style="padding-top:50px">
+          <div class="sec-eyebrow">05 — Cards</div>
+          <h2 class="sec">카드형 메시지</h2>
+          <p class="body">명함을 카메라로 촬영하거나 파일로 업로드하면 <b>OCR이 이름·회사·이메일을 자동 수집</b>하고, 상단에서 선택한 박람회 리스트에 곧바로 저장합니다. 가이드 프레임이 명함을 인식하면 4꼭짓점 마커가 활성화되고, 연속 촬영으로 여러 장을 빠르게 등록할 수 있습니다.</p>
+          <p class="body">수집된 카드는 갤러리에서 박람회 태그로 묶어 관리하며, 그대로 바이어 리드로 전환됩니다. 박람회 카드는 미리보기까지 무료이고, <span class="k-strong">"이걸로 사용" 확정 시점</span>에만 크레딧이 차감됩니다.</p>
+          <div class="callout">
+            <div class="c-tag"><span>명함 등록 흐름</span><span class="plus">+</span></div>
+            <p><b>프레임 정렬</b> → <b>촬영(또는 앨범 선택)</b> → <b>OCR 자동 수집</b> → <b>박람회 태그 저장</b> → <b>리드 전환</b>. 후면 카메라(1920×1080) 기준, 연속 모드 지원.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section class="sec-block" id="brochure" style="padding-top:50px">
+          <div class="sec-eyebrow">06 — Brochures</div>
+          <h2 class="sec">브로셔 활용</h2>
+          <p class="body">회사 브로셔·제안서를 <b>가격정보·제품소개·인증·실적·회사소개</b> 등 분류와 언어별로 업로드해 관리합니다. 업로드된 자료는 자동 분석되어 <b>기본 브로셔 · 추천 자료 · 분석 완료 · 보완 필요</b> 상태로 표시됩니다.</p>
+          <p class="body">메시지 작성 중에는 자료를 선택해 첨부하거나, AI가 판단한 추천 자료를 바이어에게 제안할 수 있습니다. PDF·DOCX·HTML·PPTX 포맷을 지원하며, 등록 자료·기본 브로셔·추천 자료·보완 필요 수가 요약 지표로 제공됩니다.</p>
+          <div class="chart">
+            <div class="ex">증거물 5</div>
+            <h3>자료 상태 요약</h3>
+            <div class="sub">등록 브로셔 24건 기준</div>
+            <div class="legend">
+              <span><i style="background:#E7FE55"></i>기본 브로셔</span>
+              <span><i style="background:#3B82F6"></i>추천 자료</span>
+              <span><i style="background:#2E9E3C"></i>분석 완료</span>
+              <span><i style="background:#F59E0B"></i>보완 필요</span>
+            </div>
+            <div class="sbar-row">
+              <div class="lab">전체 자료</div>
+              <div class="sbar">
+                <div style="width:8%;background:#E7FE55;color:#4A5A00">2</div>
+                <div style="width:33%;background:#3B82F6">8</div>
+                <div style="width:46%;background:#2E9E3C">11</div>
+                <div style="width:13%;background:#F59E0B">3</div>
+              </div>
+            </div>
+            <div class="foot-note">보완 필요 3건: 업로드 실패·분석 실패 또는 3개월 이상 미수정 자료입니다.</div>
+          </div>
+        </section>
+      </article>
+
+      <!-- side rail -->
+      <aside class="side-rail">
+        <div class="rail-block">
+          <h4>다운로드</h4>
+          <a href="#"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>MORI 제품 소개서 (PDF)</a>
+          <a href="#"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>요금제 안내서 (PDF)</a>
+        </div>
+        <div class="rail-block">
+          <h4>요금제</h4>
+          <p style="font-size:13px;color:var(--gray-strong);line-height:1.7">기본 무료 · Starter ₩33,000 · Basic ₩132,000 · <b style="color:var(--text-primary)">Pro ₩264,000</b> · Enterprise 문의</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CONVERSION GATE ============ -->
+  <div class="wrap">
+    <div class="gate-cta">
+      <h2>지금 MORI를 시작하세요</h2>
+      <p>이메일 연동 시 웰컴 50크레딧 지급 · 명함 OCR·KPI 대시보드·프로젝트 생성 무료</p>
+      <button class="btn-lime" onclick="openModal()">MORI 무료로 시작하기 →</button>
+    </div>
+  </div>
+
+  <!-- ============ ECOSYSTEM GRID ============ -->
+  <div class="wrap">
+    <section class="eco">
+      <h2>MORI 더 알아보기</h2>
+      <div class="eco-sub">기능 소개부터 릴리스 노트, 실제 활용 사례까지</div>
+      <div class="eco-grid">
+        <a class="eco-card" href="#"><div class="eco-thumb t1"><div class="g"></div></div><div class="eco-body"><div class="eco-meta">Features</div><div class="eco-title">Interest × Trust 스코어링</div><div class="eco-desc">관심도·신뢰도 이중 축으로 바이어 우선순위를 자동 분류하는 방법.</div></div></a>
+        <a class="eco-card" href="#"><div class="eco-thumb t2"><div class="g"></div></div><div class="eco-body"><div class="eco-meta">Release Notes</div><div class="eco-title">2026.06 업데이트</div><div class="eco-desc">박람회 카드 연속 촬영, 브로셔 AI 추천, 발송 퍼널 리포트 개선.</div></div></a>
+        <a class="eco-card" href="#"><div class="eco-thumb t3"><div class="g"></div></div><div class="eco-body"><div class="eco-meta">Case Studies</div><div class="eco-title">명함 200장 → 첫 거래</div><div class="eco-desc">박람회에서 모은 명함을 30일 만에 거래로 전환한 운영 사례.</div></div></a>
+      </div>
+    </section>
+  </div>
+  <div class="wrap" style="text-align:center;padding:10px 0 64px">
+    <a class="back-btn back-btn-lg" href="mori-stories-2026-07-01.html">← MORI Stories 목록으로 돌아가기</a>
+  </div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand-wrap">
+      <div class="foot-brand"><img class="logo-mark" src="mori-icon.gif" alt="MORI">MORI</div>
+      <p>AI 기반 글로벌 B2B 세일즈 인텔리전스 플랫폼. 명함 한 장에서 첫 거래까지.</p>
+    </div>
+    <div class="foot-col"><h5>제품</h5><a href="#">프로젝트</a><a href="#">바이어 관리</a><a href="#">메시지 발송</a><a href="#">브로셔</a></div>
+    <div class="foot-col"><h5>자료</h5><a href="#">사용 가이드</a><a href="#">릴리스 노트</a><a href="#">활용 사례</a><a href="#">요금제</a></div>
+    <div class="foot-col"><h5>회사</h5><a href="#">소개</a><a href="#">문의</a><a href="#">개인정보 처리방침</a></div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Connect AI. All rights reserved.</span>
+    <span>MORI 제품 가이드 · 데모 페이지</span>
+  </div>
+</footer>
+
+<!-- ================= AI SUMMARY DRAWER ================= -->
+<div class="drawer-back" id="drawerBack" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <button class="drawer-x" onclick="closeDrawer()">✕</button>
+  <h3><span class="chip">AI</span> 요약</h3>
+  <div class="d-sub">이 문서의 핵심을 3가지로 정리했습니다</div>
+  <div class="sum-item"><span class="b">01</span><div>명함 OCR(무료)로 바이어를 모으고, <b>Interest·Trust 이중 스코어</b>로 즉시 연락/검토/육성 우선순위를 자동 분류합니다.</div></div>
+  <div class="sum-item"><span class="b">02</span><div>7종 변수 자동 치환으로 개인화 메시지를 보내며 <b>1:1 1크레딧·브로셔 포함 5크레딧</b>, 발송 후 반응이 관심도에 실시간 반영됩니다.</div></div>
+  <div class="sum-item"><span class="b">03</span><div>브로셔는 분류·언어별 관리 + AI 추천 제안이 가능하고, <b>시작은 무료(웰컴 50크레딧)</b>입니다.</div></div>
+  <button class="btn-lime" style="width:100%;justify-content:center;margin-top:24px" onclick="closeDrawer();openModal()">MORI 무료로 시작하기 →</button>
+</aside>
+
+<!-- ================= CONVERSION MODAL ================= -->
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <h3>MORI 무료로 시작하기</h3>
+    <div class="m-sub">비밀번호 없이 이메일로 가입합니다. 웰컴 50크레딧이 지급됩니다.</div>
+    <div class="sso">
+      <button><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5z"/><path fill="#34A853" d="M12 23c2.8 0 5.2-1 6.9-2.5l-3.4-2.6c-1 .6-2.2 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10.4 10.4 0 0 0 12 23z"/><path fill="#FBBC05" d="M6.2 14.6a6.2 6.2 0 0 1 0-4V7.9H2.7a10.4 10.4 0 0 0 0 9.4z"/><path fill="#EA4335" d="M12 5.4c1.5 0 2.9.5 4 1.5l3-3A10.3 10.3 0 0 0 12 1 10.4 10.4 0 0 0 2.7 7.9l3.5 2.7C7 7.2 9.3 5.4 12 5.4z"/></svg>Google로 계속하기</button>
+      <button><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#0F0F1E" d="M3 3h8.5v8.5H3zM12.5 3H21v8.5h-8.5zM3 12.5h8.5V21H3zM12.5 12.5H21V21h-8.5z"/></svg>Microsoft로 계속하기</button>
+    </div>
+    <div class="divider">또는 이메일로</div>
+    <label for="emailIn">이메일 주소</label>
+    <input id="emailIn" type="email" placeholder="name@company.com" autocomplete="email" />
+    <div class="err-msg" id="errMsg">올바른 이메일 주소를 입력해 주세요.</div>
+    <button class="btn-lime" onclick="submitGate()">인증번호 받기 →</button>
+  </div>
+</div>
+
+<script>
+/* ================= HERO SCROLL-SCRUB ================= */
+const heroInner=document.getElementById('heroInner');
+const heroVeil=document.getElementById('heroVeil');
+const heroBg=document.getElementById('heroBg');
+const heroVideo=document.getElementById('heroVideo');
+const pauseBtn=document.getElementById('pauseBtn');
+const toolbar=document.getElementById('heroToolbar');
+const topbar=document.getElementById('topbar');
+const progressRail=document.getElementById('progressRail');
+const chatBtn=document.getElementById('chatBtn');
+const easeOut=t=>1-Math.pow(1-t,2);
+
+/* optional background video — put a filename in #heroVideo data-src to replace the animated bg */
+const _vsrc=heroVideo.getAttribute('data-src');
+let hasVideo=false;
+if(_vsrc){ heroVideo.src=_vsrc; document.body.classList.add('has-video'); hasVideo=true; heroVideo.play().catch(()=>{}); }
+
+let ticking=false;
+function onScroll(){
+  if(ticking)return; ticking=true;
+  requestAnimationFrame(()=>{
+    const y=window.scrollY, vh=window.innerHeight;
+    const SCRUB=vh*1.5;                              // longer drag/scroll feel
+    const p=Math.min(1,Math.max(0,y/SCRUB));         // hero progress 0→1 (drawn out)
+    // title: translate up + fade (gone by p=0.72, longer travel)
+    const tp=Math.min(1,p/0.72);
+    heroInner.style.transform='translateY('+(-140*easeOut(tp))+'px)';
+    heroInner.style.opacity=String(1-tp);
+    // veil lifts → vivid background; bg slow zoom (deeper)
+    heroVeil.style.opacity=String(0.62-0.5*Math.min(1,p/0.85));
+    heroBg.style.transform='scale('+(1+0.10*p)+')';
+    if(hasVideo) heroVideo.style.transform='scale('+(1+0.10*p)+')';
+    // hero-only UI fade out near cover
+    const uiHide=Math.min(1,Math.max(0,(p-0.62)/0.3));
+    toolbar.style.opacity=String(1-uiHide);
+    pauseBtn.style.opacity=String(1-uiHide);
+    pauseBtn.classList.toggle('show',p<0.92);
+    chatBtn.classList.toggle('nudge',p<0.92);
+
+    // reading progress bar (whole doc)
+    const docH=document.documentElement.scrollHeight-vh;
+    progressRail.style.width=(100*y/docH)+'%';
+    ticking=false;
+  });
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+/* pause/play background */
+let paused=false;
+pauseBtn.addEventListener('click',()=>{
+  paused=!paused;
+  document.body.classList.toggle('hero-paused',paused);
+  if(hasVideo){ paused?heroVideo.pause():heroVideo.play().catch(()=>{}); }
+  pauseBtn.innerHTML=paused
+    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l16 9-16 9z"/></svg>'
+    : '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+});
+
+/* ================= STICKY HEADER + TOC TRIGGER ================= */
+const toc=document.getElementById('toc');
+const tocTab=document.getElementById('tocTab');
+let tocClosedByUser=false;
+const firstSec=document.getElementById('start');
+
+const triggerObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    const past=e.boundingClientRect.top<0;   // scrolled past the section top
+    if(past){
+      document.body.classList.add('scrolled');
+      if(!tocClosedByUser){ toc.classList.add('show'); tocTab.classList.remove('show'); }
+      else { tocTab.classList.add('show'); }
+    }else{
+      document.body.classList.remove('scrolled');
+      toc.classList.remove('show');
+      tocTab.classList.remove('show');
+    }
+  });
+},{threshold:0,rootMargin:'0px 0px -85% 0px'});
+triggerObs.observe(firstSec);
+
+/* ================= TOC ACTIVE STATE ================= */
+const sections=['start','project','buyer','message','card','brochure'].map(id=>document.getElementById(id));
+const tocItems=[...document.querySelectorAll('#tocList li')];
+const activeObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      tocItems.forEach(li=>li.classList.toggle('active',li.dataset.target===id));
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px',threshold:0});
+sections.forEach(s=>activeObs.observe(s));
+
+/* TOC click → smooth scroll (offset for sticky header) */
+tocItems.forEach(li=>{
+  li.addEventListener('click',()=>{
+    const el=document.getElementById(li.dataset.target);
+    const top=el.getBoundingClientRect().top+window.scrollY-80;
+    window.scrollTo({top,behavior:'smooth'});
+  });
+});
+function closeToc(){ tocClosedByUser=true; toc.classList.remove('show'); tocTab.classList.add('show'); }
+function openToc(){ tocClosedByUser=false; toc.classList.add('show'); tocTab.classList.remove('show'); }
+
+/* ================= AI SUMMARY DRAWER ================= */
+function openDrawer(){document.getElementById('drawer').classList.add('show');document.getElementById('drawerBack').classList.add('show');}
+function closeDrawer(){document.getElementById('drawer').classList.remove('show');document.getElementById('drawerBack').classList.remove('show');}
+
+/* ================= CONVERSION MODAL ================= */
+const modalBack=document.getElementById('modalBack');
+const emailIn=document.getElementById('emailIn');
+const errMsg=document.getElementById('errMsg');
+function openModal(){modalBack.classList.add('show');setTimeout(()=>emailIn.focus(),100);}
+function closeModal(){modalBack.classList.remove('show');emailIn.classList.remove('err');errMsg.classList.remove('show');}
+modalBack.addEventListener('click',e=>{if(e.target===modalBack)closeModal();});
+function submitGate(){
+  const v=emailIn.value.trim();
+  const ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  if(!ok){emailIn.classList.add('err');errMsg.classList.add('show');emailIn.focus();return;}
+  emailIn.classList.remove('err');errMsg.classList.remove('show');
+  emailIn.value='';
+  closeModal();
+  alert('인증번호를 '+v+' 로 보냈습니다. (데모)');
+}
+emailIn.addEventListener('input',()=>{emailIn.classList.remove('err');errMsg.classList.remove('show');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDrawer();}});
+
+/* ================= BUILD CHARTS ================= */
+// 1) feature adoption stages (stacked horizontal)
+const stageData=[
+  {f:'명함 등록',  v:[8,14,30,48]},
+  {f:'바이어 분석',v:[10,22,40,28]},
+  {f:'메시지 발송',v:[14,26,38,22]},
+  {f:'브로셔',     v:[18,30,33,19]},
+  {f:'캠페인',     v:[22,32,29,17]},
+];
+const stageColors=['#9A9A8E','#7FE7E5','#3B82F6','#0F0F1E'];
+const stageTextC=['#fff','#0F0F1E','#fff','#fff'];
+document.getElementById('chart-stage').innerHTML=stageData.map(d=>
+  '<div class="sbar-row"><div class="lab">'+d.f+'</div><div class="sbar">'+
+  d.v.map((x,i)=>'<div style="width:'+x+'%;background:'+stageColors[i]+';color:'+stageTextC[i]+'">'+x+'</div>').join('')+
+  '</div></div>').join('');
+
+// 2) interest score distribution (vertical bars)
+const interest=[{l:'0–20',v:42},{l:'21–40',v:78},{l:'41–60',v:96},{l:'61–80',v:63},{l:'81–100',v:41}];
+const imax=Math.max(...interest.map(d=>d.v));
+document.getElementById('chart-interest').innerHTML=interest.map(d=>{
+  const h=Math.round(100*d.v/imax);
+  const hot=d.l==='81–100';
+  return '<div class="vbar"><div class="val" style="color:'+(hot?'#4A5A00':'#111')+'">'+d.v+'</div>'+
+    '<div class="bar" style="height:'+h+'%;background:'+(hot?'var(--lime)':'var(--info)')+'"></div>'+
+    '<div class="cap">'+d.l+(hot?'<br><b style="color:#4A5A00">핫리드</b>':'')+'</div></div>';
+}).join('');
+
+// 3) response funnel (vertical bars)
+const funnel=[{l:'발송',v:100},{l:'오픈',v:52},{l:'클릭',v:24},{l:'답장',v:9},{l:'미팅',v:4}];
+const fcol=['#0F0F1E','#3B82F6','#7FE7E5','#2E9E3C','#E7FE55'];
+const ftxt=['#111','#111','#111','#111','#4A5A00'];
+document.getElementById('chart-funnel').innerHTML=funnel.map((d,i)=>{
+  const h=d.v;
+  return '<div class="vbar"><div class="val" style="color:'+ftxt[i]+'">'+d.v+'%</div>'+
+    '<div class="bar" style="height:'+h+'%;background:'+fcol[i]+'"></div>'+
+    '<div class="cap">'+d.l+'</div></div>';
+}).join('');
+</script>
+</body>
+</html>

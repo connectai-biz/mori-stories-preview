@@ -1,0 +1,118 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<style>
+:root{--ink:#0F0F1E;--bg:#FAFAF5;--sec:#F2F3E8;--lime:#E7FE55;--lime-ink:#4A5A00;
+  --trust:#2E9E3C;--info:#3B82F6;--slate:#242A3B;--mute:#7A8091;--line:#E3E6DC;--sky:#7FE7E5;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1600px;height:884px}
+body{background:
+    radial-gradient(1200px 520px at 82% -8%, rgba(59,130,246,.10), transparent 60%),
+    radial-gradient(900px 480px at 6% 112%, rgba(231,254,85,.14), transparent 55%),
+    var(--bg);
+  font-family:"Pretendard","Apple SD Gothic Neo",-apple-system,sans-serif;color:var(--ink);
+  padding:60px 64px;position:relative;overflow:hidden}
+body::before{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(15,15,30,.045) 1.3px, transparent 1.3px);
+  background-size:26px 26px;opacity:.6;pointer-events:none}
+.wrap{position:relative;z-index:1}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--lime);
+  font-weight:800;font-size:22px;padding:11px 20px;border-radius:24px}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--lime)}
+h1{font-size:46px;font-weight:800;letter-spacing:-.6px;text-align:center;margin:34px 0 12px}
+h1 .hl{background:linear-gradient(transparent 62%, rgba(231,254,85,.55) 62%);padding:0 4px}
+.sub{text-align:center;color:var(--mute);font-size:23px;font-weight:500}
+.flow{display:flex;align-items:flex-start;justify-content:space-between;margin-top:60px}
+.node{width:280px;text-align:center}
+.circle{width:176px;height:176px;border-radius:50%;margin:0 auto;background:#fff;
+  display:flex;align-items:center;justify-content:center;position:relative;
+  box-shadow:0 22px 48px -18px rgba(15,15,30,.35);border:3px solid var(--ink)}
+.circle.c2{border-color:var(--info)}.circle.c3{border-color:var(--lime-ink);
+  background:linear-gradient(150deg,#F3FF9E,var(--lime))}
+.badge{position:absolute;top:-8px;right:-8px;width:40px;height:40px;border-radius:50%;
+  background:var(--ink);color:var(--lime);font-weight:800;font-size:18px;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -4px rgba(0,0,0,.4)}
+.step{font-size:15px;font-weight:800;color:var(--lime-ink);background:var(--lime);
+  display:inline-block;padding:4px 12px;border-radius:14px;margin-top:24px}
+.lbl{font-size:27px;font-weight:800;margin-top:12px}
+.dsc{font-size:19px;color:var(--mute);font-weight:500;margin-top:8px;line-height:1.45}
+.conn{flex:1;height:24px;margin:82px 4px 0}
+.conn svg{width:100%;height:24px;overflow:visible}
+.ex{margin-top:56px;background:var(--ink);border-radius:22px;padding:26px 32px;
+  box-shadow:0 20px 50px -22px rgba(15,15,30,.55)}
+.ex .h{font-size:16px;font-weight:800;color:var(--lime);letter-spacing:.1em;margin-bottom:16px}
+.ex .row{display:flex;align-items:center;gap:18px}
+.ex .box{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-radius:14px;padding:16px 18px;color:#fff}
+.ex .box b{color:var(--lime);font-weight:800}
+.ex .box .t{font-size:19px;font-weight:700;line-height:1.4}
+.ex .box .c{font-size:15px;color:#AAB1BE;margin-top:4px}
+.ex .arw{color:var(--lime);font-size:28px;font-weight:800;flex:none}
+</style></head>
+<body><div class="wrap">
+  <div style="text-align:center"><span class="chip"><i></i>세일즈 인텔리전스 · 2부</span></div>
+  <h1>비식별 신호가 <span class="hl">‘구매 의도’</span>로, 다시 <span class="hl">‘세일즈 액션’</span>으로</h1>
+  <div class="sub">탐지 → AI 분석 → 멘토링 &nbsp;—&nbsp; 커넥트AI의 3단계 작동 메커니즘</div>
+
+  <div class="flow">
+    <!-- 1 탐지 -->
+    <div class="node">
+      <div class="circle"><span class="badge">1</span>
+        <svg width="84" height="84" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="20"/><circle cx="32" cy="32" r="11"/>
+          <path d="M32 8v10M32 46v10M8 32h10M46 32h10"/>
+          <circle cx="41" cy="24" r="4.2" fill="#4A5A00" stroke="none"/>
+        </svg>
+      </div>
+      <span class="step">1단계 · 탐지</span>
+      <div class="lbl">비식별 신호 탐지</div>
+      <div class="dsc">기업 IP · 열람 시간<br>페이지 체류 · 스크롤 깊이</div>
+    </div>
+
+    <div class="conn"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+      <defs><linearGradient id="a" x1="0" x2="1"><stop offset="0" stop-color="#B9C0AE"/><stop offset="1" stop-color="#3B82F6"/></linearGradient></defs>
+      <line x1="0" y1="12" x2="88" y2="12" stroke="url(#a)" stroke-width="4" stroke-dasharray="2 7" stroke-linecap="round"/>
+      <path d="M88 5L98 12L88 19Z" fill="#3B82F6"/></svg></div>
+
+    <!-- 2 분석 -->
+    <div class="node">
+      <div class="circle c2"><span class="badge">2</span>
+        <svg width="84" height="84" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="20" y="20" width="24" height="24" rx="4"/>
+          <rect x="27" y="27" width="10" height="10" rx="2" fill="#3B82F6" stroke="none"/>
+          <path d="M26 20v-6M38 20v-6M26 50v-6M38 50v-6M20 26h-6M20 38h-6M50 26h6M50 38h6"/>
+        </svg>
+      </div>
+      <span class="step">2단계 · 분석</span>
+      <div class="lbl">AI 맥락·관심도 분석</div>
+      <div class="dsc">구매 의향 <b style="color:var(--info)">점수화</b><br>단순 트래픽 → 구매 의도</div>
+    </div>
+
+    <div class="conn"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+      <defs><linearGradient id="b" x1="0" x2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#4A5A00"/></linearGradient></defs>
+      <line x1="0" y1="12" x2="88" y2="12" stroke="url(#b)" stroke-width="4" stroke-dasharray="2 7" stroke-linecap="round"/>
+      <path d="M88 5L98 12L88 19Z" fill="#4A5A00"/></svg></div>
+
+    <!-- 3 멘토링 -->
+    <div class="node">
+      <div class="circle c3"><span class="badge">3</span>
+        <svg width="84" height="84" viewBox="0 0 64 64" fill="none" stroke="#0F0F1E" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 18h36a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H28l-10 9v-9h-4a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4Z" fill="rgba(255,255,255,.55)"/>
+          <path d="M24 31l6 6 12-12" stroke-width="4"/>
+        </svg>
+      </div>
+      <span class="step">3단계 · 멘토링</span>
+      <div class="lbl">맞춤형 세일즈 멘토링</div>
+      <div class="dsc">즉시 실행 가능한<br>액션 가이드 코칭</div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="h">실제 작동 예시</div>
+    <div class="row">
+      <div class="box"><div class="t"><b>A 기업 IP</b>가 가격·스펙 비교 장표에 <b>3분+</b> 집중 체류</div><div class="c">비식별 행동 로그 탐지</div></div>
+      <span class="arw">→</span>
+      <div class="box"><div class="t">높은 <b>구매 의향 점수</b> 부여</div><div class="c">AI가 맥락으로 해석</div></div>
+      <span class="arw">→</span>
+      <div class="box"><div class="t">“초기 도입 비용 <b>프로모션</b>을 발송하라” 코칭</div><div class="c">담당자 액션 가이드</div></div>
+    </div>
+  </div>
+</div></body></html>

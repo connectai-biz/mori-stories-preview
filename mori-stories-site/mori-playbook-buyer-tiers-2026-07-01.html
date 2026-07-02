@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>300장의 명함, 어디부터 연락할까 — 바이어 3단계 분류법 — MORI 세일즈 플레이북</title><style>
+:root{
+  --bg-white:#FAFAF5;--bg-section:#F2F3E8;--border-warm:#E8E6DC;--border-default:#E5E5E5;
+  --ink:#0F0F1E;--ink-fg:#E8E6DC;--text-primary:#111111;--gray-strong:#4F5F66;--gray:#9A9A8E;
+  --lime:#E7FE55;--lime-ink:#4A5A00;--info:#3B82F6;--trust:#2E9E3C;--sky:#7FE7E5;
+  --maxw:1240px;--gutter:26px;
+  --serif:"Iowan Old Style","Apple SD Gothic Neo",Georgia,"Nanum Myeongjo",serif;
+  --sans:"Pretendard","Apple SD Gothic Neo","Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{font-family:var(--sans);color:var(--text-primary);background:var(--bg-white);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:820px;margin:0 auto;padding:0 var(--gutter)}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .3s,border-color .3s}
+.nav.solid{background:rgba(250,250,245,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-default)}
+.nav-in{max-width:var(--maxw);margin:0 auto;height:62px;display:flex;align-items:flex-start;justify-content:space-between;padding:22px 32px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;color:#fff;transition:color .3s}
+.nav.solid .brand{color:var(--text-primary)}
+.logo-mark{width:24px;height:24px;border-radius:7px;object-fit:cover}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:22px;padding:7px 14px;backdrop-filter:blur(6px);transition:all .2s}
+.nav.solid .back-btn{color:var(--gray-strong);background:var(--bg-section);border-color:var(--border-warm)}
+.back-btn:hover{color:#fff;background:rgba(255,255,255,.28)}
+.nav.solid .back-btn:hover{color:var(--text-primary);background:var(--border-warm)}
+
+/* HERO */
+.hero{position:fixed;inset:0;height:100vh;width:100%;z-index:0;overflow:hidden;background:var(--ink)}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+.hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,30,.55) 0%,rgba(15,15,30,.32) 42%,rgba(15,15,30,.8) 100%);will-change:opacity}
+.hero-inner{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;z-index:2;padding:0 var(--gutter);will-change:transform,opacity}
+.hero .eyebrow{font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--lime);text-transform:uppercase}
+.hero h1{font-family:var(--serif);font-weight:800;font-size:clamp(34px,5.4vw,66px);line-height:1.12;margin:16px 0 14px;max-width:18ch;text-shadow:0 2px 30px rgba(15,15,30,.55)}
+.hero p{font-size:clamp(15px,1.6vw,18px);color:#eceadf;max-width:40ch;text-shadow:0 1px 14px rgba(15,15,30,.6)}
+.chevron{margin-top:32px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* content */
+.content{position:relative;z-index:2;background:var(--bg-white);margin-top:150vh;box-shadow:0 -40px 90px rgba(15,15,30,.1);border-radius:26px 26px 0 0}
+.art-head{padding:52px 0 22px;border-bottom:1px solid var(--border-warm)}
+.crumb{font-size:12.5px;color:var(--gray);display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.crumb a{color:var(--gray-strong)} .crumb a:hover{color:var(--text-primary)} .crumb em{font-style:normal;color:var(--text-primary);font-weight:600}
+.cat-tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.04em;color:#fff;background:var(--info);padding:5px 12px;border-radius:20px}
+.art-head h1{font-family:var(--serif);font-weight:800;font-size:clamp(28px,3.6vw,44px);line-height:1.2;margin:16px 0 14px}
+.art-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--gray-strong)}
+.art-meta b{color:var(--text-primary)}
+
+/* left TOC */
+.toc{position:fixed;left:0;top:50%;transform:translateY(-50%) translateX(-20px);z-index:45;width:210px;background:rgba(250,250,245,.96);backdrop-filter:blur(6px);border:1px solid var(--border-warm);border-left:none;border-radius:0 12px 12px 0;padding:28px 16px 18px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.toc.show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
+.toc-x{position:absolute;top:8px;right:10px;border:none;background:none;font-size:18px;color:var(--gray-strong);cursor:pointer;line-height:1}
+.toc .lab{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--gray);text-transform:uppercase;margin-bottom:12px}
+.toc ul{list-style:none}
+.toc li{display:flex;gap:10px;margin:2px 0;cursor:pointer}
+.toc .rail{width:3px;border-radius:3px;background:var(--border-warm);flex:0 0 3px}
+.toc li.active .rail{background:var(--lime)}
+.toc .t-txt{font-size:12px;line-height:1.45;color:var(--gray-strong);padding:6px 0}
+.toc li.active .t-txt{color:var(--text-primary);font-weight:700}
+.toc li:hover .t-txt{color:var(--text-primary)}
+.toc-tab{position:fixed;left:0;top:50%;transform:translateY(-50%) translateX(-110%);z-index:46;display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px 9px;border:1px solid var(--border-warm);border-left:none;border-radius:0 12px 12px 0;background:rgba(250,250,245,.96);backdrop-filter:blur(6px);color:var(--text-primary);cursor:pointer;box-shadow:2px 4px 18px rgba(15,15,30,.1);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+.toc-tab.show{transform:translateY(-50%) translateX(0)}
+.toc-tab svg{color:var(--lime-ink)} .toc-tab .tt{writing-mode:vertical-rl;font-size:12px;font-weight:700;letter-spacing:.14em}
+
+/* article body */
+.sec-block{padding:46px 0 4px}
+.sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--info);text-transform:uppercase;margin-bottom:12px}
+h2.sec{font-family:var(--serif);font-weight:700;font-size:clamp(23px,2.6vw,32px);line-height:1.28;margin:0 0 14px;scroll-margin-top:88px}
+p.body{font-size:17px;line-height:1.85;color:#1c1c1c;margin:16px 0}
+p.body b{font-weight:700}
+.k-strong{background:linear-gradient(180deg,transparent 60%,rgba(231,254,85,.6) 60%)}
+.lede{font-family:var(--serif);font-size:clamp(19px,2.1vw,25px);line-height:1.6;color:var(--text-primary);padding:8px 0 4px}
+.callout{background:var(--ink);color:#fff;border-radius:16px;padding:26px 28px;margin:28px 0;font-size:17px;line-height:1.7}
+.callout b{color:var(--lime)}
+.tmpl{background:var(--bg-section);border:1px solid var(--border-warm);border-radius:14px;padding:22px 24px;margin:24px 0;font-size:14.5px;line-height:1.9;white-space:pre-wrap;font-family:"SF Mono",ui-monospace,Menlo,monospace;color:#2a2a2a}
+.tmpl .h{font-family:var(--sans);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--gray-strong);text-transform:uppercase;margin-bottom:12px}
+.compare{list-style:none;margin:14px 0}
+.compare li{padding:9px 0 9px 30px;position:relative;font-size:16px;line-height:1.6;border-bottom:1px solid var(--border-warm)}
+.compare li.no::before{content:"✕";position:absolute;left:0;color:#d15b5b;font-weight:800}
+.compare li.yes::before{content:"✓";position:absolute;left:0;color:var(--trust);font-weight:800}
+.seq{list-style:none;counter-reset:s;margin:16px 0}
+.seq li{counter-increment:s;position:relative;padding:12px 0 12px 46px;border-bottom:1px solid var(--border-warm);font-size:16px;line-height:1.6}
+.seq li::before{content:counter(s)"일차";position:absolute;left:0;top:12px;font-size:11px;font-weight:800;color:var(--lime-ink);background:var(--lime);padding:3px 6px;border-radius:6px}
+.check{list-style:none;margin:16px 0}
+.check li{position:relative;padding:11px 0 11px 34px;font-size:16px;line-height:1.6;border-bottom:1px solid var(--border-warm)}
+.check li::before{content:"";position:absolute;left:0;top:13px;width:19px;height:19px;border:2px solid var(--trust);border-radius:5px}
+.check li::after{content:"✓";position:absolute;left:3px;top:9px;color:var(--trust);font-weight:800;font-size:14px}
+
+/* CTA gate */
+.gate{background:var(--bg-section);border:1px solid var(--border-warm);border-radius:20px;text-align:center;padding:48px 28px;margin:60px 0 10px}
+.gate h2{font-family:var(--serif);font-weight:800;font-size:clamp(22px,2.6vw,30px);margin-bottom:10px}
+.gate p{color:var(--gray-strong);font-size:15px;margin-bottom:22px}
+.btn-lime{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--lime-ink);border:none;border-radius:12px;padding:14px 26px;font-weight:800;font-size:15px;cursor:pointer}
+.btn-lime:hover{filter:brightness(1.05)}
+.back-lg{text-align:center;padding:14px 0 64px}
+.back-lg a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--gray-strong);background:var(--bg-section);border:1px solid var(--border-warm);border-radius:22px;padding:12px 24px}
+.back-lg a:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s cubic-bezier(.2,.6,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+footer{background:var(--ink);color:var(--ink-fg);padding:50px 0 30px}
+.foot-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);display:flex;justify-content:space-between;flex-wrap:wrap;gap:22px}
+.foot-in .b{display:flex;align-items:center;gap:9px;font-weight:800;color:#fff;margin-bottom:8px}
+.foot-in p{font-size:13px;max-width:34ch}
+.foot-bottom{max-width:var(--maxw);margin:24px auto 0;padding:16px var(--gutter) 0;border-top:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--gray)}
+</style></head><body><nav class="nav" id="nav"><div class="nav-in"><a class="brand" href="mori-stories-2026-07-01.html"><img class="logo-mark" src="mori-icon.gif" alt="MORI">MORI</a><a class="back-btn" href="mori-stories-2026-07-01.html?cat=playbook">← 목록</a></div></nav><section class="hero"><video src="mori-hero.mp4" autoplay muted loop playsinline></video><div class="hero-veil" id="heroVeil"></div><div class="hero-inner" id="heroInner"><div class="eyebrow">Sales Playbook</div><h1>300장의 명함,<br>어디부터 연락할까</h1><p>모두에게 똑같이 연락하면, 아무도 안 남습니다</p><svg class="chevron" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></div></section><nav class="toc" id="toc"><button class="toc-x" onclick="closeToc()" title="목차 닫기">✕</button><div class="lab">목차</div><ul id="tocList"><li data-target="s1"><span class="rail"></span><span class="t-txt">왜 우선순위</span></li><li data-target="s2"><span class="rail"></span><span class="t-txt">3단계</span></li><li data-target="s3"><span class="rail"></span><span class="t-txt">기준</span></li><li data-target="s4"><span class="rail"></span><span class="t-txt">대응</span></li><li data-target="s5"><span class="rail"></span><span class="t-txt">핫리드</span></li><li data-target="s6"><span class="rail"></span><span class="t-txt">MORI 활용</span></li><li data-target="s7"><span class="rail"></span><span class="t-txt">체크리스트</span></li></ul></nav><button class="toc-tab" id="tocTab" onclick="openToc()" title="목차 열기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="tt">목차</span></button><main class="content"><div class="wrap"><div class="art-head"><nav class="crumb"><a href="mori-stories-2026-07-01.html">MORI Stories</a><span>›</span><a href="mori-stories-2026-07-01.html?cat=playbook">세일즈 플레이북</a><span>›</span><em>바이어 3단계 분류법</em></nav><span class="cat-tag">세일즈 플레이북</span><h1>300장의 명함, 어디부터 연락할까 — 바이어 3단계 분류법</h1><div class="art-meta"><span><b>MORI 팀</b></span><span>·</span><span>2026.07.01</span><span>·</span><span>6분 읽기</span></div></div><p class="lede reveal">명함은 많은데 시간은 없습니다. 승부는 <b>누구부터 연락하느냐</b>에서 갈립니다.</p><section class="sec-block reveal" id="s1"><div class="sec-eyebrow">01 — Why</div><h2 class="sec">왜 우선순위가 전부인가</h2><p class="body">명함 300장을 받으면 뿌듯합니다. 하지만 300명에게 똑같은 정성으로 연락할 수는 없습니다. 모두에게 평범하게 연락하면 <b>아무도 기억하지 못합니다.</b></p><p class="body">핵심은 <span class="k-strong">소수에게 집중</span>하는 것. 가능성 높은 20%에 시간을 몰아주면, 나머지 80%를 평범하게 대할 때보다 훨씬 많은 거래가 나옵니다.</p><div class="callout">우선순위가 없는 리스트는 <b>리스트가 아니라 짐</b>입니다. 분류가 곧 전략입니다.</div></section><section class="sec-block reveal" id="s2"><div class="sec-eyebrow">02 — 3 Tiers</div><h2 class="sec">바이어를 3단계로 나눠라</h2><p class="body">모든 바이어를 딱 세 칸에 넣으세요.</p><ul class="compare"><li class="yes"><b>즉시 연락</b> — 반응 신호가 있는 핫리드. 오늘 안에 연락</li><li class="yes"><b>검토 필요</b> — 가능성은 있으나 정보가 부족. 자료로 간 보기</li><li class="yes"><b>장기 육성</b> — 지금은 아니지만 놓치면 안 되는. 뉴스레터로 관계 유지</li></ul></section><section class="sec-block reveal" id="s3"><div class="sec-eyebrow">03 — Signals</div><h2 class="sec">무엇으로 나누나</h2><p class="body">감으로 나누면 매번 흔들립니다. 두 가지 객관적 축을 쓰세요. <b>관심도</b>(얼마나 반응했나 — 오픈·클릭·답장·미팅)와 <b>신뢰도</b>(실제 담당자인가 — 이메일 도메인 품질). 이 두 축이 바이어를 자동으로 세 칸에 배치합니다.</p></section><section class="sec-block reveal" id="s4"><div class="sec-eyebrow">04 — Play</div><h2 class="sec">단계별로 다르게 대응하라</h2><p class="body"><b>즉시 연락</b>은 개인화 1:1 메일 + 빠른 미팅 제안. 뜨거울 때 바로 굽습니다.</p><p class="body"><b>검토 필요</b>는 맞춤 자료(브로셔)를 보내 반응을 봅니다. 열어보면 즉시 연락 칸으로 승격.</p><p class="body"><b>장기 육성</b>은 뉴스레터·세미나 초대로 잊히지 않게. 몇 달 뒤 먼저 연락 오는 경우가 많습니다.</p></section><section class="sec-block reveal" id="s5"><div class="sec-eyebrow">05 — Hot Lead</div><h2 class="sec">핫리드를 놓치지 마라</h2><p class="body">가장 큰 손실은 <b>뜨거운 리드를 식히는 것</b>입니다. 답장하고 클릭한 바이어에게 하루 늦게 답하면, 그 사이 경쟁사가 미팅을 잡습니다.</p><div class="callout">반응이 온 순간이 <b>골든타임</b>입니다. 핫리드는 알림으로 즉시 잡으세요.</div></section><section class="sec-block reveal" id="s6"><div class="sec-eyebrow">06 — With MORI</div><h2 class="sec">MORI가 자동으로 분류합니다</h2><ul class="compare"><li class="yes">관심도·신뢰도를 <b>0~100으로 자동 산출</b></li><li class="yes">즉시 연락 / 검토 필요 / 장기 육성으로 <b>자동 분류</b></li><li class="yes">관심도 <b>70 이상은 핫리드로 자동 표시</b> → 오늘 연락할 사람이 매일 아침 정해짐</li></ul><div class="callout">"누구부터 연락하지?"를 고민하는 시간이 사라집니다. <b>리스트가 스스로 정렬</b>됩니다.</div></section><section class="sec-block reveal" id="s7"><div class="sec-eyebrow">07 — Checklist</div><h2 class="sec">분류 체크리스트</h2><ul class="check"><li>모든 바이어를 3단계 중 하나에 넣었는가</li><li>즉시 연락 대상에게 오늘 안에 연락했는가</li><li>검토 필요 대상에게 맞춤 자료를 보냈는가</li><li>장기 육성 대상을 뉴스레터에 넣었는가</li><li>핫리드 알림을 놓치지 않고 있는가</li></ul></section><div class="gate reveal"><h2>오늘 연락할 바이어, 자동으로 정해집니다</h2><p>관심도·신뢰도 자동 분류 · 핫리드 자동 표시 · 무료 시작</p><button class="btn-lime" onclick="alert('MORI 시작하기 (데모)')">MORI 무료로 시작하기 →</button></div><div class="back-lg reveal"><a href="mori-stories-2026-07-01.html?cat=playbook">← MORI Stories 목록으로 돌아가기</a></div></div><footer><div class="foot-in"><div><div class="b"><img class="logo-mark" src="mori-icon.gif" alt="MORI">MORI</div><p>AI 기반 글로벌 B2B 세일즈 인텔리전스 플랫폼. 명함 한 장에서 첫 거래까지.</p></div><div style="font-size:13px;line-height:2"><div style="color:#fff;font-weight:700;margin-bottom:6px">세일즈 플레이북</div>박람회 팔로업 · 콜드메일 · 바이어 분류 · 시퀀스</div></div><div class="foot-bottom">© 2026 Connect AI. All rights reserved. · MORI 세일즈 플레이북</div></footer></main><script>
+const heroInner=document.getElementById('heroInner'),heroVeil=document.getElementById('heroVeil'),heroVideo=document.querySelector('.hero video'),nav=document.getElementById('nav');
+const easeOut=t=>1-Math.pow(1-t,2);let ticking=false;
+function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{const y=scrollY,vh=innerHeight,SCRUB=vh*1.5,p=Math.min(1,Math.max(0,y/SCRUB));const tp=Math.min(1,p/0.72);heroInner.style.transform='translateY('+(-140*easeOut(tp))+'px)';heroInner.style.opacity=String(1-tp);heroVeil.style.opacity=String(1-0.5*Math.min(1,p/0.85));heroVideo.style.transform='scale('+(1+0.10*p)+')';nav.classList.toggle('solid',y>vh*0.82);ticking=false;});}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+const toc=document.getElementById('toc'),tocTab=document.getElementById('tocTab');let tocClosed=false;
+const tocItems=[...document.querySelectorAll('#tocList li')];
+const ids=tocItems.map(li=>li.dataset.target);
+new IntersectionObserver((es)=>{es.forEach(e=>{const past=e.boundingClientRect.top<0;if(past){if(!tocClosed){toc.classList.add('show');tocTab.classList.remove('show');}else{tocTab.classList.add('show');}}else{toc.classList.remove('show');tocTab.classList.remove('show');}});},{threshold:0,rootMargin:'0px 0px -85% 0px'}).observe(document.getElementById(ids[0]));
+const activeObs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;tocItems.forEach(li=>li.classList.toggle('active',li.dataset.target===id));}});},{rootMargin:'-45% 0px -50% 0px',threshold:0});
+ids.forEach(id=>activeObs.observe(document.getElementById(id)));
+tocItems.forEach(li=>li.addEventListener('click',()=>{const el=document.getElementById(li.dataset.target);const top=el.getBoundingClientRect().top+scrollY-84;scrollTo({top,behavior:'smooth'});}));
+function closeToc(){tocClosed=true;toc.classList.remove('show');tocTab.classList.add('show');}
+function openToc(){tocClosed=false;toc.classList.add('show');tocTab.classList.remove('show');}
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script></body></html>

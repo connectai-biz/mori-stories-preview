@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>열어보게 만드는 콜드메일 제목 7가지 — MORI 세일즈 플레이북</title><style>
+:root{
+  --bg-white:#FAFAF5;--bg-section:#F2F3E8;--border-warm:#E8E6DC;--border-default:#E5E5E5;
+  --ink:#0F0F1E;--ink-fg:#E8E6DC;--text-primary:#111111;--gray-strong:#4F5F66;--gray:#9A9A8E;
+  --lime:#E7FE55;--lime-ink:#4A5A00;--info:#3B82F6;--trust:#2E9E3C;--sky:#7FE7E5;
+  --maxw:1240px;--gutter:26px;
+  --serif:"Iowan Old Style","Apple SD Gothic Neo",Georgia,"Nanum Myeongjo",serif;
+  --sans:"Pretendard","Apple SD Gothic Neo","Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{font-family:var(--sans);color:var(--text-primary);background:var(--bg-white);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:820px;margin:0 auto;padding:0 var(--gutter)}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .3s,border-color .3s}
+.nav.solid{background:rgba(250,250,245,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-default)}
+.nav-in{max-width:var(--maxw);margin:0 auto;height:62px;display:flex;align-items:flex-start;justify-content:space-between;padding:22px 32px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;color:#fff;transition:color .3s}
+.nav.solid .brand{color:var(--text-primary)}
+.logo-mark{width:24px;height:24px;border-radius:7px;object-fit:cover}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:22px;padding:7px 14px;backdrop-filter:blur(6px);transition:all .2s}
+.nav.solid .back-btn{color:var(--gray-strong);background:var(--bg-section);border-color:var(--border-warm)}
+.back-btn:hover{color:#fff;background:rgba(255,255,255,.28)}
+.nav.solid .back-btn:hover{color:var(--text-primary);background:var(--border-warm)}
+
+/* HERO */
+.hero{position:fixed;inset:0;height:100vh;width:100%;z-index:0;overflow:hidden;background:var(--ink)}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+.hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,30,.55) 0%,rgba(15,15,30,.32) 42%,rgba(15,15,30,.8) 100%);will-change:opacity}
+.hero-inner{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;z-index:2;padding:0 var(--gutter);will-change:transform,opacity}
+.hero .eyebrow{font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--lime);text-transform:uppercase}
+.hero h1{font-family:var(--serif);font-weight:800;font-size:clamp(34px,5.4vw,66px);line-height:1.12;margin:16px 0 14px;max-width:18ch;text-shadow:0 2px 30px rgba(15,15,30,.55)}
+.hero p{font-size:clamp(15px,1.6vw,18px);color:#eceadf;max-width:40ch;text-shadow:0 1px 14px rgba(15,15,30,.6)}
+.chevron{margin-top:32px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* content */
+.content{position:relative;z-index:2;background:var(--bg-white);margin-top:150vh;box-shadow:0 -40px 90px rgba(15,15,30,.1);border-radius:26px 26px 0 0}
+.art-head{padding:52px 0 22px;border-bottom:1px solid var(--border-warm)}
+.crumb{font-size:12.5px;color:var(--gray);display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.crumb a{color:var(--gray-strong)} .crumb a:hover{color:var(--text-primary)} .crumb em{font-style:normal;color:var(--text-primary);font-weight:600}
+.cat-tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.04em;color:#fff;background:var(--info);padding:5px 12px;border-radius:20px}
+.art-head h1{font-family:var(--serif);font-weight:800;font-size:clamp(28px,3.6vw,44px);line-height:1.2;margin:16px 0 14px}
+.art-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--gray-strong)}
+.art-meta b{color:var(--text-primary)}
+
+/* left TOC */
+.toc{position:fixed;left:0;top:50%;transform:translateY(-50%) translateX(-20px);z-index:45;width:210px;background:rgba(250,250,245,.96);backdrop-filter:blur(6px);border:1px solid var(--border-warm);border-left:none;border-radius:0 12px 12px 0;padding:28px 16px 18px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.toc.show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
+.toc-x{position:absolute;top:8px;right:10px;border:none;background:none;font-size:18px;color:var(--gray-strong);cursor:pointer;line-height:1}
+.toc .lab{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--gray);text-transform:uppercase;margin-bottom:12px}
+.toc ul{list-style:none}
+.toc li{display:flex;gap:10px;margin:2px 0;cursor:pointer}
+.toc .rail{width:3px;border-radius:3px;background:var(--border-warm);flex:0 0 3px}
+.toc li.active .rail{background:var(--lime)}
+.toc .t-txt{font-size:12px;line-height:1.45;color:var(--gray-strong);padding:6px 0}
+.toc li.active .t-txt{color:var(--text-primary);font-weight:700}
+.toc li:hover .t-txt{color:var(--text-primary)}
+.toc-tab{position:fixed;left:0;top:50%;transform:translateY(-50%) translateX(-110%);z-index:46;display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px 9px;border:1px solid var(--border-warm);border-left:none;border-radius:0 12px 12px 0;background:rgba(250,250,245,.96);backdrop-filter:blur(6px);color:var(--text-primary);cursor:pointer;box-shadow:2px 4px 18px rgba(15,15,30,.1);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+.toc-tab.show{transform:translateY(-50%) translateX(0)}
+.toc-tab svg{color:var(--lime-ink)} .toc-tab .tt{writing-mode:vertical-rl;font-size:12px;font-weight:700;letter-spacing:.14em}
+
+/* article body */
+.sec-block{padding:46px 0 4px}
+.sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--info);text-transform:uppercase;margin-bottom:12px}
+h2.sec{font-family:var(--serif);font-weight:700;font-size:clamp(23px,2.6vw,32px);line-height:1.28;margin:0 0 14px;scroll-margin-top:88px}
+p.body{font-size:17px;line-height:1.85;color:#1c1c1c;margin:16px 0}
+p.body b{font-weight:700}
+.k-strong{background:linear-gradient(180deg,transparent 60%,rgba(231,254,85,.6) 60%)}
+.lede{font-family:var(--serif);font-size:clamp(19px,2.1vw,25px);line-height:1.6;color:var(--text-primary);padding:8px 0 4px}
+.callout{background:var(--ink);color:#fff;border-radius:16px;padding:26px 28px;margin:28px 0;font-size:17px;line-height:1.7}
+.callout b{color:var(--lime)}
+.tmpl{background:var(--bg-section);border:1px solid var(--border-warm);border-radius:14px;padding:22px 24px;margin:24px 0;font-size:14.5px;line-height:1.9;white-space:pre-wrap;font-family:"SF Mono",ui-monospace,Menlo,monospace;color:#2a2a2a}
+.tmpl .h{font-family:var(--sans);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--gray-strong);text-transform:uppercase;margin-bottom:12px}
+.compare{list-style:none;margin:14px 0}
+.compare li{padding:9px 0 9px 30px;position:relative;font-size:16px;line-height:1.6;border-bottom:1px solid var(--border-warm)}
+.compare li.no::before{content:"✕";position:absolute;left:0;color:#d15b5b;font-weight:800}
+.compare li.yes::before{content:"✓";position:absolute;left:0;color:var(--trust);font-weight:800}
+.seq{list-style:none;counter-reset:s;margin:16px 0}
+.seq li{counter-increment:s;position:relative;padding:12px 0 12px 46px;border-bottom:1px solid var(--border-warm);font-size:16px;line-height:1.6}
+.seq li::before{content:counter(s)"일차";position:absolute;left:0;top:12px;font-size:11px;font-weight:800;color:var(--lime-ink);background:var(--lime);padding:3px 6px;border-radius:6px}
+.check{list-style:none;margin:16px 0}
+.check li{position:relative;padding:11px 0 11px 34px;font-size:16px;line-height:1.6;border-bottom:1px solid var(--border-warm)}
+.check li::before{content:"";position:absolute;left:0;top:13px;width:19px;height:19px;border:2px solid var(--trust);border-radius:5px}
+.check li::after{content:"✓";position:absolute;left:3px;top:9px;color:var(--trust);font-weight:800;font-size:14px}
+
+/* CTA gate */
+.gate{background:var(--bg-section);border:1px solid var(--border-warm);border-radius:20px;text-align:center;padding:48px 28px;margin:60px 0 10px}
+.gate h2{font-family:var(--serif);font-weight:800;font-size:clamp(22px,2.6vw,30px);margin-bottom:10px}
+.gate p{color:var(--gray-strong);font-size:15px;margin-bottom:22px}
+.btn-lime{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--lime-ink);border:none;border-radius:12px;padding:14px 26px;font-weight:800;font-size:15px;cursor:pointer}
+.btn-lime:hover{filter:brightness(1.05)}
+.back-lg{text-align:center;padding:14px 0 64px}
+.back-lg a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--gray-strong);background:var(--bg-section);border:1px solid var(--border-warm);border-radius:22px;padding:12px 24px}
+.back-lg a:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s cubic-bezier(.2,.6,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+footer{background:var(--ink);color:var(--ink-fg);padding:50px 0 30px}
+.foot-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);display:flex;justify-content:space-between;flex-wrap:wrap;gap:22px}
+.foot-in .b{display:flex;align-items:center;gap:9px;font-weight:800;color:#fff;margin-bottom:8px}
+.foot-in p{font-size:13px;max-width:34ch}
+.foot-bottom{max-width:var(--maxw);margin:24px auto 0;padding:16px var(--gutter) 0;border-top:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--gray)}
+</style></head><body><nav class="nav" id="nav"><div class="nav-in"><a class="brand" href="mori-stories-2026-07-01.html"><img class="logo-mark" src="mori-icon.gif" alt="MORI">MORI</a><a class="back-btn" href="mori-stories-2026-07-01.html?cat=playbook">← 목록</a></div></nav><section class="hero"><video src="mori-hero.mp4" autoplay muted loop playsinline></video><div class="hero-veil" id="heroVeil"></div><div class="hero-inner" id="heroInner"><div class="eyebrow">Sales Playbook</div><h1>열어보게 만드는<br>콜드메일 제목 7가지</h1><p>오픈율의 8할은 제목에서 갈립니다</p><svg class="chevron" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></div></section><nav class="toc" id="toc"><button class="toc-x" onclick="closeToc()" title="목차 닫기">✕</button><div class="lab">목차</div><ul id="tocList"><li data-target="s1"><span class="rail"></span><span class="t-txt">제목이 8할</span></li><li data-target="s2"><span class="rail"></span><span class="t-txt">7가지 유형</span></li><li data-target="s3"><span class="rail"></span><span class="t-txt">피할 제목</span></li><li data-target="s4"><span class="rail"></span><span class="t-txt">검증</span></li><li data-target="s5"><span class="rail"></span><span class="t-txt">MORI 활용</span></li><li data-target="s6"><span class="rail"></span><span class="t-txt">체크리스트</span></li></ul></nav><button class="toc-tab" id="tocTab" onclick="openToc()" title="목차 열기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="tt">목차</span></button><main class="content"><div class="wrap"><div class="art-head"><nav class="crumb"><a href="mori-stories-2026-07-01.html">MORI Stories</a><span>›</span><a href="mori-stories-2026-07-01.html?cat=playbook">세일즈 플레이북</a><span>›</span><em>콜드메일 제목 7가지</em></nav><span class="cat-tag">세일즈 플레이북</span><h1>열어보게 만드는 콜드메일 제목 7가지</h1><div class="art-meta"><span><b>MORI 팀</b></span><span>·</span><span>2026.07.01</span><span>·</span><span>6분 읽기</span></div></div><p class="lede reveal">아무리 잘 쓴 메일도 <b>제목에서 지면 안 열립니다.</b> 본문은 그다음 이야기입니다.</p><section class="sec-block reveal" id="s1"><div class="sec-eyebrow">01 — Why</div><h2 class="sec">제목이 8할이다</h2><p class="body">바이어는 하루에 수십, 많게는 수백 통의 메일을 받습니다. 본문이 아무리 훌륭해도 <b>제목에서 열지 말지가 결정</b>됩니다. 콜드메일에서 제목은 문이고, 본문은 방입니다. 문을 못 열면 방은 의미가 없죠.</p><p class="body">좋은 제목의 공통점은 하나입니다. <span class="k-strong">"나와 관련 있어 보인다"</span>는 신호. 아래 7가지는 그 신호를 만드는 검증된 유형입니다.</p><div class="callout">제목은 <b>40자 이내</b>, 모바일에서 잘리지 않게. 그리고 <b>회사명·이름</b>이 들어가면 열림률이 확 올라갑니다.</div></section><section class="sec-block reveal" id="s2"><div class="sec-eyebrow">02 — 7 Types</div><h2 class="sec">바로 쓰는 제목 7가지</h2><p class="body"><b>1. 질문형</b> — 궁금하게 만든다. "{country} 시장, 올해도 그 규제 그대로일까요?"</p><p class="body"><b>2. 숫자·데이터형</b> — 구체성이 신뢰를 준다. "귀사 카테고리, 이번 달 3곳이 문의했습니다"</p><p class="body"><b>3. 현장 언급형</b> — 접점을 상기시킨다. "부산 박람회 A-12 부스, 기억하시나요?"</p><p class="body"><b>4. 이득 제시형</b> — 얻을 것을 먼저 준다. "재고 없이 유럽 시장 테스트하는 법"</p><p class="body"><b>5. 호기심형</b> — 한 가지만 던진다. "{company}에 대해 한 가지 여쭤봐도 될까요?"</p><p class="body"><b>6. 개인화형</b> — 당신에게 보냈다는 티. "{name}님께 딱 맞을 것 같아 연락드립니다"</p><p class="body"><b>7. 마감·긴급형</b> — 행동을 앞당긴다. "이번 주까지: 박람회 특별 견적"</p></section><section class="sec-block reveal" id="s3"><div class="sec-eyebrow">03 — Avoid</div><h2 class="sec">이런 제목은 스팸함으로 갑니다</h2><ul class="compare"><li class="no">"안녕하세요, 제안드립니다" — 누구에게나 가는 티</li><li class="no">"[광고] 최고의 품질, 최저가!" — 대괄호·과장·느낌표</li><li class="no">대문자 남발, 이모지 도배, 20단어가 넘는 긴 제목</li></ul><p class="body">스팸 필터와 사람의 눈은 비슷하게 반응합니다. <b>과장·범용·장황</b>은 셋 다 피하세요.</p></section><section class="sec-block reveal" id="s4"><div class="sec-eyebrow">04 — Test</div><h2 class="sec">감이 아니라 A/B로 검증하라</h2><p class="body">어떤 제목이 먹히는지는 <b>업종·시장마다 다릅니다.</b> 두 가지 제목을 나눠 보내고, 어느 쪽 오픈율이 높은지 데이터로 확인하세요. 한 번의 캠페인이 다음 캠페인의 정답을 알려줍니다.</p><p class="body">중요한 건 <span class="k-strong">한 번에 하나씩</span> 바꾸는 것. 제목과 본문을 동시에 바꾸면 무엇이 효과였는지 알 수 없습니다.</p></section><section class="sec-block reveal" id="s5"><div class="sec-eyebrow">05 — With MORI</div><h2 class="sec">MORI로 제목 반응 보기</h2><p class="body">MORI는 발송한 메일의 반응을 자동으로 추적합니다.</p><ul class="compare"><li class="yes">오픈·클릭이 <b>실시간 관심도에 반영</b> → 어떤 제목이 열렸는지 데이터로 축적</li><li class="yes">발송 전 <b>데스크톱·모바일 미리보기</b>로 잘림·깨짐 확인</li><li class="yes">{name} {company} {country} 등 <b>7종 변수 자동 치환</b>으로 개인화형 제목을 대량 발송</li></ul><div class="callout">"열린 제목"이 데이터로 쌓이면, 다음 캠페인은 <b>추측이 아니라 근거</b>로 씁니다.</div></section><section class="sec-block reveal" id="s6"><div class="sec-eyebrow">06 — Checklist</div><h2 class="sec">발송 전 체크리스트</h2><ul class="check"><li>40자 이내로 모바일에서 안 잘리는가</li><li>회사명·이름 등 개인화가 들어갔는가</li><li>과장·대괄호·느낌표를 뺐는가</li><li>7가지 유형 중 하나에 해당하는가</li><li>A/B로 비교할 두 번째 제목이 있는가</li></ul></section><div class="gate reveal"><h2>제목 반응을 데이터로 확인하세요</h2><p>오픈·클릭이 실시간 관심도에 반영 · 웰컴 50크레딧 무료</p><button class="btn-lime" onclick="alert('MORI 시작하기 (데모)')">MORI 무료로 시작하기 →</button></div><div class="back-lg reveal"><a href="mori-stories-2026-07-01.html?cat=playbook">← MORI Stories 목록으로 돌아가기</a></div></div><footer><div class="foot-in"><div><div class="b"><img class="logo-mark" src="mori-icon.gif" alt="MORI">MORI</div><p>AI 기반 글로벌 B2B 세일즈 인텔리전스 플랫폼. 명함 한 장에서 첫 거래까지.</p></div><div style="font-size:13px;line-height:2"><div style="color:#fff;font-weight:700;margin-bottom:6px">세일즈 플레이북</div>박람회 팔로업 · 콜드메일 · 바이어 분류 · 시퀀스</div></div><div class="foot-bottom">© 2026 Connect AI. All rights reserved. · MORI 세일즈 플레이북</div></footer></main><script>
+const heroInner=document.getElementById('heroInner'),heroVeil=document.getElementById('heroVeil'),heroVideo=document.querySelector('.hero video'),nav=document.getElementById('nav');
+const easeOut=t=>1-Math.pow(1-t,2);let ticking=false;
+function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{const y=scrollY,vh=innerHeight,SCRUB=vh*1.5,p=Math.min(1,Math.max(0,y/SCRUB));const tp=Math.min(1,p/0.72);heroInner.style.transform='translateY('+(-140*easeOut(tp))+'px)';heroInner.style.opacity=String(1-tp);heroVeil.style.opacity=String(1-0.5*Math.min(1,p/0.85));heroVideo.style.transform='scale('+(1+0.10*p)+')';nav.classList.toggle('solid',y>vh*0.82);ticking=false;});}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+const toc=document.getElementById('toc'),tocTab=document.getElementById('tocTab');let tocClosed=false;
+const tocItems=[...document.querySelectorAll('#tocList li')];
+const ids=tocItems.map(li=>li.dataset.target);
+new IntersectionObserver((es)=>{es.forEach(e=>{const past=e.boundingClientRect.top<0;if(past){if(!tocClosed){toc.classList.add('show');tocTab.classList.remove('show');}else{tocTab.classList.add('show');}}else{toc.classList.remove('show');tocTab.classList.remove('show');}});},{threshold:0,rootMargin:'0px 0px -85% 0px'}).observe(document.getElementById(ids[0]));
+const activeObs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;tocItems.forEach(li=>li.classList.toggle('active',li.dataset.target===id));}});},{rootMargin:'-45% 0px -50% 0px',threshold:0});
+ids.forEach(id=>activeObs.observe(document.getElementById(id)));
+tocItems.forEach(li=>li.addEventListener('click',()=>{const el=document.getElementById(li.dataset.target);const top=el.getBoundingClientRect().top+scrollY-84;scrollTo({top,behavior:'smooth'});}));
+function closeToc(){tocClosed=true;toc.classList.remove('show');tocTab.classList.add('show');}
+function openToc(){tocClosed=false;toc.classList.add('show');tocTab.classList.remove('show');}
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script></body></html>
