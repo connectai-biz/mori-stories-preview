@@ -300,5 +300,5 @@ if(_cat&&CATS[_cat]){setChip(_cat);render(_cat,1);observeReveal();requestAnimati
 else{setChip('all');render('all',1);observeReveal();}
 function shareSite(){if(navigator.share){navigator.share({title:document.title,url:location.href}).catch(function(){});}else if(navigator.clipboard){navigator.clipboard.writeText(location.href);alert('링크를 복사했습니다.');}else{alert(location.href);}}
 </script>
-</body>
+<script>/*navclose*/document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest(".nav-cats")){var t=document.getElementById("navtog");if(t)t.checked=false;}});</script></body>
 </html>
